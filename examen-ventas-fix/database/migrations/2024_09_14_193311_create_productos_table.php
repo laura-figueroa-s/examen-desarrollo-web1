@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
+            $table->string(column: 'sku');
+            $table->string(column: 'nombre');
+            $table->string(column: 'descripcion_corta');
+            $table->string(column: 'descripcion_larga');
+            $table->string(column: 'imagen_producto');
+            $table->integer(column: 'precio_neto');
+            $table->integer(column: 'precio_venta');
+            $table->integer(column: 'stock_actual');
+            $table->integer(column: 'stock_minimo');
+            $table->integer(column: 'stock_bajo');
+            $table->integer(column: 'stock_alto');
             $table->timestamps();
         });
     }
