@@ -43,12 +43,6 @@ class ClienteController extends Controller
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
         $registro = Cliente::findOrFail($_id);
-        try {
-            $registro->delete();
-            return redirect()->route('mantenedores.index')->with('success', "[id: $registro->id] [Registro: $registro->nombre] eliminado con éxito.");
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $this->getTextToast($this->properties['title']['singular'], 'disable', 'error', $registro->nombre, null) . $e->getMessage());
-        }
     }
 
     public function create(Request $_request)
