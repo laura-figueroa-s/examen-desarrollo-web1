@@ -12,3 +12,4 @@ Route::get('/productos', [ProductoController::class, 'getAllProducts']);
 Route::get('/producto', [ProductoController::class, 'getProduct']);
 Route::post('/producto', [ProductoController::class, 'create']);
 Route::put('/producto', [ProductoController::class, 'updateProduct']);
+Route::delete('/producto', [ProductoController::class, 'deleteProduct']);

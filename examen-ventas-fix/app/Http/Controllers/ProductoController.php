@@ -73,11 +73,12 @@ class ProductoController extends Controller
         $datos = Producto::all();
     }
 
-    public function getAllProducts(){
+    public function getAllProducts()
+    {
         $productos = Producto::all();
-        if($productos){
+        if ($productos) {
             return response([
-                'message'=> 'success',
+                'message' => 'success',
                 'products' => $productos
             ]);
         } else {
@@ -88,25 +89,27 @@ class ProductoController extends Controller
         }
     }
 
-    public function getProduct(Request $_request){
+    public function getProduct(Request $_request)
+    {
         $_request->validate(['id' => 'required']);
         $producto = Producto::find($_request->id);
-        if($producto){
+        if ($producto) {
             return response([
-                'message'=> 'success',
-                'product'=> $producto,
-                'status'=> 200
+                'message' => 'success',
+                'product' => $producto,
+                'status' => 200
             ]);
         } else {
             return response([
-                'message'=> 'error',
-                'product'=> 'El producto no existe',
-                'status'=> 404
+                'message' => 'error',
+                'product' => 'El producto no existe',
+                'status' => 404
             ]);
         }
     }
 
-    public function updateProduct(Request $_request){
+    public function updateProduct(Request $_request)
+    {
         $_request->validate([
             'nombre' => 'required',
             'sku' => 'required',
@@ -121,7 +124,7 @@ class ProductoController extends Controller
         ]);
 
         $producto = Producto::find($_request->id);
-        if($producto){
+        if ($producto) {
             $producto->nombre = $_request->nombre;
             $producto->sku = $_request->sku;
             $producto->descripcion_corta = $_request->descripcion_corta;
@@ -134,15 +137,35 @@ class ProductoController extends Controller
             $producto->stock_alto = $_request->stock_alto;
             $producto->save();
             return response([
-                'message'=> 'success',
-                'product'=> $producto,
-                'status'=> 200
+                'message' => 'success',
+                'product' => $producto,
+                'status' => 200
             ]);
         } else {
             return response([
-                'message'=> 'error',
-                'product'=> 'El producto no existe',
-                'status'=> 404
+                'message' => 'error',
+                'product' => 'El producto no existe',
+                'status' => 404
+            ]);
+        }
+    }
+
+    function deleteProduct(Request $_request)
+    {
+        $_request->validate(['id' => 'required']);
+        $producto = Producto::find($_request->id);
+        if ($producto) {
+            $producto->delete();
+            return response([
+                'message' => 'success',
+                'products' => 'El producto ha sido eliminado exitosamente',
+                'status' => 200
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'products' => 'El producto que deseas eliminar no existe',
+                'status' => 404
             ]);
         }
     }
