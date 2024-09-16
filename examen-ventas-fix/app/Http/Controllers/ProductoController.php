@@ -87,4 +87,22 @@ class ProductoController extends Controller
             ]);
         }
     }
+
+    public function getProduct(Request $_request){
+        $_request->validate(['id' => 'required']);
+        $producto = Producto::find($_request->id);
+        if($producto){
+            return response([
+                'message'=> 'success',
+                'product'=> $producto,
+                'status'=> 200
+            ]);
+        } else {
+            return response([
+                'message'=> 'error',
+                'product'=> 'El producto no existe',
+                'status'=> 404
+            ]);
+        }
+    }
 }
