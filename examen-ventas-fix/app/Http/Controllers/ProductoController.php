@@ -105,4 +105,45 @@ class ProductoController extends Controller
             ]);
         }
     }
+
+    public function updateProduct(Request $_request){
+        $_request->validate([
+            'nombre' => 'required',
+            'sku' => 'required',
+            'descripcion_corta' => 'required',
+            'descripcion_larga' => 'required',
+            'precio_neto' => 'required',
+            'precio_venta' => 'required',
+            'stock_actual' => 'required',
+            'stock_minimo' => 'required',
+            'stock_bajo' => 'required',
+            'stock_alto' => 'required',
+        ]);
+
+        $producto = Producto::find($_request->id);
+        if($producto){
+            $producto->nombre = $_request->nombre;
+            $producto->sku = $_request->sku;
+            $producto->descripcion_corta = $_request->descripcion_corta;
+            $producto->descripcion_larga = $_request->descripcion_larga;
+            $producto->precio_neto = $_request->precio_neto;
+            $producto->precio_venta = $_request->precio_venta;
+            $producto->stock_actual = $_request->stock_actual;
+            $producto->stock_minimo = $_request->stock_minimo;
+            $producto->stock_bajo = $_request->stock_bajo;
+            $producto->stock_alto = $_request->stock_alto;
+            $producto->save();
+            return response([
+                'message'=> 'success',
+                'product'=> $producto,
+                'status'=> 200
+            ]);
+        } else {
+            return response([
+                'message'=> 'error',
+                'product'=> 'El producto no existe',
+                'status'=> 404
+            ]);
+        }
+    }
 }
