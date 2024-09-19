@@ -3,133 +3,147 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
-use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller
 {
-
-    public function getById($_id)
-    { //Validar sesión activa
-        $user = Auth::user();
-        if ($user == NULL) {
-            return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
-        } //Si no hay ID en el parámetro, me trae todos los clientes
-        if ($_id === null) {
-            $datos = User::all();
-            $datos->each(function ($item) {
-                if ($item->imagen) {
-                    $item->imagen = base64_encode($item->imagen);
-                }
-            });
-        } else {
-            $datos = User::findOrFail($_id);
-            if ($datos->imagen) {
-                $datos->imagen = base64_encode($datos->imagen);
-            }
-        }
-        return response()->json([
-            'data' => $datos
-        ]);
-    }
-
-    public function delete($_id)
-    {
-        $user = Auth::user();
-        if ($user == NULL) {
-            return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
-        }
-        $registro = Cliente::findOrFail($_id);
-    }
-
     public function create(Request $_request)
     {
-        $user = Auth::user();
-        if ($user == NULL) {
-            return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
-        }
-        // Validar la solicitud. USO DE UNIQUE: unique:tabla,campo
+        // Validate the request
         $_request->validate([
-            'usuario_nombre' => 'required|string',
-            'usuario_rut' => 'required|string|unique:users,email',
-            'usuario_email' => 'required|string',
-            'usuario_password' => 'required|string',
-        ], $this->mensajes);
+            'rut_empresa' => 'required|string|max:10',
+            'rubro' => 'required|string',
+            'razon_social' => 'required|string',
+            'telefono' => 'required|string',
+            'direccion' => 'required|string',
+            'nombre_persona_contacto' => 'required|string',
+            'email_persona_contacto' => 'required|email',
+        ]);
 
-        $datos = $_request->only('usuario_nombre', 'usuario_rut', 'usuario_email', 'usuario_password', 'usuario_rePassword');
+        // Create the product
+        $cliente = Cliente::create([
+            'rut_empresa' => $_request->rut_empresa,
+            'rubro' => $_request->rubro,
+            'razon_social' => $_request->razon_social,
+            'telefono' => $_request->telefono,
+            'direccion' => $_request->direccion,
+            'nombre_persona_contacto' => $_request->nombre_persona_contacto,
+            'email_persona_contacto' => $_request->email_persona_contacto,
+        ]);
 
-        if ($datos['usuario_password'] != $datos['usuario_rePassword']) {
-            return back()->withErrors(['message' => 'Las contraseñas ingresadas no son iguales.']);
+        // Check if product is saved successfully
+        if ($cliente) {
+            return response()->json([
+                'message' => 'Cliente creado exitosamente',
+                'cliente' => $cliente,
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Ocurrió un error al intentar crear un cliente',
+            ], 500);
         }
     }
 
-    public function update(Request $_request, $_id)
+
+    public function index()
     {
         $user = Auth::user();
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
+        $datos = Cliente::all();
+    }
 
-        $_request->validate([
-            'usuario_nombre' => 'required|string',
-            'usuario_rut' => 'required|string',
-            'usuario_password' => 'required|string',
-            'usuario_imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'usuario_email' => 'required',
-        ], $this->mensajes);
-
-        //busca el proyecto
-        $registro = User::findOrFail($_id);
-
-        $datos = $_request->only('_token', 'usuario_nombre', 'usuario_email', 'usuario_password', 'usuario_rePassword', 'usuario_imagen', 'usuario_rut');
-
-        $cambios = 0;
-
-        // solo si es distinto actualiza
-        if ($registro->nombre != $datos['usuario_nombre']) {
-            $registro->nombre = $datos['usuario_nombre'];
-            $cambios++;
-        }
-        if ($registro->email != $datos['usuario_email']) {
-            $registro->email = $datos['usuario_email'];
-            $cambios++;
-        }
-        if ($datos['usuario_password'] != '') {
-            if ($datos['usuario_password'] != $datos['usuario_rePassword']) {
-                return back()->withErrors(['message' => 'Las contraseñas ingresadas no son iguales.']);
-            } else {
-                $registro->password = $datos['usuario_password'];
-                $cambios++;
-            }
-        }
-        if ($registro->rol_id != $datos['usuario_rut_id']) {
-            $registro->rol_id = $datos['usuario_rut_id'];
-            $cambios++;
-        }
-
-        try {
-            if ($registro->imagen != $datos['usuario_imagen']) {
-                // Manejar la carga de la imagen
-                $image = $_request->file('usuario_imagen');
-                $imageData = file_get_contents($image);
-                $registro->imagen = $imageData;
-                $cambios += 1;
-            }
-        } catch (\Throwable $th) {
-        }
-
-        if ($cambios > 0) {
-            try {
-                $registro->save();
-                return redirect()->route('usuarios.index')->with('success', "[id: $registro->id] [Usuario: $registro->nombre] actualizado con éxito.");
-            } catch (Exception $e) {
-                return redirect()->back()->with('error', 'Error al actualizar el proyecto: ' . $e->getMessage());
-            }
+    public function getAllClients()
+    {
+        $clientes = Cliente::all();
+        if ($clientes) {
+            return response([
+                'message' => 'success',
+                'clientes' => $clientes
+            ]);
         } else {
-            return redirect()->back()->with('error', "[id: $registro->id] [Usuario: $registro->nombre] no se realizaron cambios.");
+            return response([
+                'message' => 'error',
+                'products' => 'No existen clientes en la base de datos'
+            ]);
+        }
+    }
+
+    public function getClient(Request $_request)
+    {
+        $_request->validate(['id' => 'required']);
+        $cliente = Cliente::find($_request->id);
+        if ($cliente) {
+            return response([
+                'message' => 'success',
+                'cliente' => $cliente,
+                'status' => 200
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'cliente' => 'El cliente no existe',
+                'status' => 404
+            ]);
+        }
+    }
+
+    public function updateClient(Request $_request)
+    {
+        $_request->validate([
+            'rut_empresa' => 'required',
+            'rubro' => 'required',
+            'razon_social' => 'required',
+            'telefono' => 'required',
+            'direccion' => 'required',
+            'nombre_persona_contacto' => 'required',
+            'email_persona_contacto' => 'required',
+        ]);
+
+        $cliente = Cliente::find($_request->id);
+        if ($cliente) {
+            $cliente->rut_empresa = $_request->rut_empresa;
+            $cliente->rubro = $_request->rubro;
+            $cliente->razon_social = $_request->razon_social;
+            $cliente->telefono = $_request->telefono;
+            $cliente->direccion = $_request->direccion;
+            $cliente->nombre_persona_contacto = $_request->nombre_persona_contacto;
+            $cliente->email_persona_contacto = $_request->email_persona_contacto;
+            $cliente->save();
+            return response([
+                'message' => 'success',
+                'product' => $cliente,
+                'status' => 200
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'product' => 'El cliente no existe',
+                'status' => 404
+            ]);
+        }
+    }
+
+    function deleteClient(Request $_request)
+    {
+        $_request->validate(['id' => 'required']);
+        $cliente = Cliente::find($_request->id);
+        if ($cliente) {
+            $cliente->delete();
+            return response([
+                'message' => 'success',
+                'products' => 'El cliente ha sido eliminado exitosamente',
+                'status' => 200
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'products' => 'El cliente que deseas eliminar no existe',
+                'status' => 404
+            ]);
         }
     }
 }

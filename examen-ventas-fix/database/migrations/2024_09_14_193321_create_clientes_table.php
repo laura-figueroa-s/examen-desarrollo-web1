@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('direccion');
             $table->string('nombre_persona_contacto');
             $table->string('email_persona_contacto');
-            /* $table->rememberToken(); */
+            $table->rememberToken();
             $table->timestamps();
         });
     }

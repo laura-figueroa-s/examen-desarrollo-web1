@@ -20,7 +20,6 @@ class UserController extends Controller
 
         $credenciales = $_request->only('email', 'password');
 
-        // var_dump($credenciales);
 
         if (Auth::attempt($credenciales)) {
             //verifica el usuario activo
@@ -33,7 +32,6 @@ class UserController extends Controller
             $_request->session()->regenerate();
             return redirect()->route('backoffice.dashboard');
         }
-        // echo 'siempre';
         return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']);
     }
 
@@ -51,7 +49,6 @@ class UserController extends Controller
         $_request->session()->invalidate();
         $_request->session()->regenerateToken();
         return redirect()->route('usuario.login');
-        // return redirect()->route('raiz');
     }
 
     public function getById($_id)
