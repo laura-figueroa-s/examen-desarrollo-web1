@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function login(Request $_request)
+    /* public function login(Request $_request)
     {
 
         $_request->validate([
@@ -22,7 +22,6 @@ class UserController extends Controller
 
 
         if (Auth::attempt($credenciales)) {
-            //verifica el usuario activo
             $user = Auth::user();
             if (!$user->activo) {
                 Auth::logout();
@@ -33,7 +32,7 @@ class UserController extends Controller
             return redirect()->route('backoffice.dashboard');
         }
         return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']);
-    }
+    } */
 
     public function formularioLogin()
     {
@@ -51,37 +50,30 @@ class UserController extends Controller
         return redirect()->route('usuario.login');
     }
 
-    
     public function create(Request $_request)
     {
-        // Validate the request
         $_request->validate([
-            'rut_empresa' => 'required|string|max:10',
-            'rubro' => 'required|string',
-            'razon_social' => 'required|string',
-            'telefono' => 'required|string',
-            'direccion' => 'required|string',
-            'nombre_persona_contacto' => 'required|string',
-            'email_persona_contacto' => 'required|email',
+            'nombre' => 'required',
+            'rut' => 'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
-        // Create the product
         $cliente = User::create([
-            'rut_empresa' => $_request->rut_empresa,
-            'rubro' => $_request->rubro,
-            'razon_social' => $_request->razon_social,
-            'telefono' => $_request->telefono,
+            'nombre' => $_request->nombre,
+            'rut' => $_request->rut,
+            'email' => $_request->email,
+            'password' => Hash::make($_request->password),
         ]);
 
-        // Check if product is saved successfully
         if ($cliente) {
             return response()->json([
-                'message' => 'Cliente creado exitosamente',
+                'message' => 'Usuario creado exitosamente',
                 'cliente' => $cliente,
             ], 201);
         } else {
             return response()->json([
-                'message' => 'Ocurrió un error al intentar crear un cliente',
+                'message' => 'Ocurrió un error al intentar crear un usuario',
             ], 500);
         }
     }
@@ -96,78 +88,71 @@ class UserController extends Controller
         $datos = User::all();
     }
 
-    public function getAllClients()
+    public function getAllUsers()
     {
-        $clientes = User::all();
-        if ($clientes) {
+        $usuarios = User::all();
+        if ($usuarios) {
             return response([
                 'message' => 'success',
-                'clientes' => $clientes
+                'usuarios' => $usuarios
             ]);
         } else {
             return response([
                 'message' => 'error',
-                'products' => 'No existen clientes en la base de datos'
+                'products' => 'No existen usuarios en la base de datos'
             ]);
         }
     }
 
-    public function getClient(Request $_request)
+    public function getUser(Request $_request)
     {
         $_request->validate(['id' => 'required']);
-        $cliente = User::find($_request->id);
-        if ($cliente) {
+        $usuario = User::find($_request->id);
+        if ($usuario) {
             return response([
                 'message' => 'success',
-                'cliente' => $cliente,
+                'usuario' => $usuario,
                 'status' => 200
             ]);
         } else {
             return response([
                 'message' => 'error',
-                'cliente' => 'El cliente no existe',
+                'cliente' => 'El usuario no existe',
                 'status' => 404
             ]);
         }
     }
 
-    public function updateClient(Request $_request)
+    public function updateUser(Request $_request)
     {
         $_request->validate([
-            'rut_empresa' => 'required',
-            'rubro' => 'required',
-            'razon_social' => 'required',
-            'telefono' => 'required',
-            'direccion' => 'required',
-            'nombre_persona_contacto' => 'required',
-            'email_persona_contacto' => 'required',
+            'nombre' => 'required',
+            'rut' => 'required',
+            'email' => 'required',
         ]);
 
-        $cliente = User::find($_request->id);
-        if ($cliente) {
-            $cliente->rut_empresa = $_request->rut_empresa;
-            $cliente->rubro = $_request->rubro;
-            $cliente->razon_social = $_request->razon_social;
-            $cliente->telefono = $_request->telefono;
-            $cliente->direccion = $_request->direccion;
-            $cliente->nombre_persona_contacto = $_request->nombre_persona_contacto;
-            $cliente->email_persona_contacto = $_request->email_persona_contacto;
-            $cliente->save();
+        $usuario = User::find($_request->id);
+        if ($usuario) {
+            $usuario->nombre = $_request->nombre;
+            $usuario->rut = $_request->rut;
+            $usuario->email = $_request->email;
+            $usuario->password = Hash::make($_request->password);
+            $usuario->save();
             return response([
                 'message' => 'success',
-                'product' => $cliente,
+                'usuario' => $usuario,
                 'status' => 200
             ]);
         } else {
             return response([
                 'message' => 'error',
-                'product' => 'El cliente no existe',
+                'usuario' => 'El cliente no existe',
                 'status' => 404
             ]);
         }
     }
 
-    function deleteClient(Request $_request)
+    function deleteUser(Request $_request)
     {
         $_request->validate(['id' => 'required']);
         $cliente = User::find($_request->id);
