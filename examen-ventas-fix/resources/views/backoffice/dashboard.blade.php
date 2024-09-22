@@ -2,7 +2,7 @@
 
 @section('title', 'Dashboard')
 
-@section('page-title', 'Dashboard | PROYECTOS')
+@section('page-title', 'Dashboard | Productos')
 
 @section('css')
 @endsection
