@@ -15,17 +15,17 @@ class ProductoController extends Controller
     {
         // Validate the request
         $_request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string',
             'imagen_producto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'sku' => 'required|string|max:50',
             'descripcion_corta' => 'required|string|max:500',
             'descripcion_larga' => 'required|string|max:1000',
-            'precio_neto' => 'required|numeric|min:0|max:99999999.99',
-            'precio_venta' => 'required|numeric|min:0|max:99999999.99',
-            'stock_actual' => 'required|integer|min:0|max:9999',
-            'stock_minimo' => 'required|integer|min:0|max:9999',
-            'stock_bajo' => 'required|integer|min:0|max:9999',
-            'stock_alto' => 'required|integer|min:0|max:9999',
+            'precio_neto' => 'required|numeric',
+            'precio_venta' => 'required|numeric',
+            'stock_actual' => 'required|integer',
+            'stock_minimo' => 'required|integer',
+            'stock_bajo' => 'required|integer',
+            'stock_alto' => 'required|integer',
         ]);
 
         // Handle the image upload
