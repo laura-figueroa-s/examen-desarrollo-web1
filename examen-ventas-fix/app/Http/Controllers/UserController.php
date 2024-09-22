@@ -42,6 +42,14 @@ class UserController extends Controller
         return view('usuario.login');
     }
 
+    public function formularioNuevo()
+    {
+        if (Auth::check()) {
+            return redirect()->route('backoffice.dashboard');
+        }
+        return view('usuario.create');
+    }
+
     public function logout(Request $_request)
     {
         Auth::logout();

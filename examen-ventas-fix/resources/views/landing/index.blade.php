@@ -3,42 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
+    <title>Company Name</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body, html {
             height: 100%;
             margin: 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
         }
-        .login-container {
+        .content-wrapper {
+            flex: 1;
+        }
+        .full-width-section {
             width: 100%;
-            max-width: 400px;
+            padding: 20px;
+        }
+        .intro-section {
+            background-color: #d0e7ff; /* Light blue background */
+        }
+        .content-section {
+            background-color: whitesmoke; /* White smoke background */
+        }
+        footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto; /* Ensures footer stays at the bottom */
         }
     </style>
 </head>
 <body>
 
-<div class="login-container">
-    <form action="/your-login-route" method="POST">
-        <!-- CSRF Token -->
-        @csrf
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Lorem ipsum</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email" required>
+<!-- Main content -->
+<div class="content-wrapper">
+    <div class="container-fluid text-center">
+        <h1>Bienvenido</h1>
+
+        <div class="intro-section full-width-section mt-4">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula, est sit amet facilisis tristique, libero metus cursus felis, ac blandit libero nisl eget elit. Nulla facilisi. Maecenas ac nibh sed purus tempus viverra vel nec purus.</p>
         </div>
 
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
+        <div class="content-section full-width-section mt-4">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vehicula, lacus eget dictum faucibus, justo est dictum nisl, nec gravida sapien ligula sit amet est. Suspendisse id erat eget metus ullamcorper vehicula at sit amet mauris.</p>
         </div>
-
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
-    </form>
+    </div>
 </div>
+
+<!-- Footer-->
+<footer>
+    <p>Contact us: info@company.com | +123-456-7890</p>
+</footer>
 
 </body>
 </html>
