@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /* public function login(Request $_request)
+    public function login(Request $_request)
     {
 
         $_request->validate([
@@ -32,14 +33,45 @@ class UserController extends Controller
             return redirect()->route('backoffice.dashboard');
         }
         return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']);
-    } */
+    }
+
+    public function registrar(Request $_request)
+    {
+        $_request->validate([
+            'nombre' => 'required|string|max:50',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|string',
+            'rePassword' => 'required|string',
+        ], $this->mensajes);
+
+        $datos = $_request->only('nombre', 'email', 'password', 'rePassword');
+
+        if ($datos['password'] != $datos['rePassword']) {
+            return back()->withErrors(['message' => 'Las contraseñas ingresadas no son iguales.']);
+        }
+
+        try {
+            User::create([
+                'nombre' => $datos['nombre'],
+                'email' => $datos['email'],
+                'password' => Hash::make($datos['password']),
+                'activo' => true,
+            ]);
+            return redirect()->route('usuario.login')->with('success', 'Usuario creado con éxito.');
+        } catch (QueryException $e) {
+            if ($e->getCode() == 23000) {
+                return back()->withErrors(['message' => 'Error al crear el miembro, el email ya existe.']);
+            }
+            return back()->withErrors(['message' => 'Error desconocido: ' . $e->getMessage()]);
+        }
+    }
 
     public function formularioLogin()
     {
         if (Auth::check()) {
             return redirect()->route('backoffice.dashboard');
         }
-        return view('usuario.login');
+        return view('user.login');
     }
 
     public function formularioNuevo()
@@ -47,7 +79,7 @@ class UserController extends Controller
         if (Auth::check()) {
             return redirect()->route('backoffice.dashboard');
         }
-        return view('usuario.create');
+        return view('user.create');
     }
 
     public function logout(Request $_request)

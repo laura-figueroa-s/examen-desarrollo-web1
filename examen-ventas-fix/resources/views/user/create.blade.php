@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Login VentasFix</title>
+    <title>Registrar un nuevo usuario | VentasFixs</title>
 
     <meta name="description" content="" />
 
@@ -60,7 +60,7 @@
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-6">
-                <!-- Login -->
+                <!-- Register Card -->
                 <div class="card">
                     <div class="card-body">
                         <!-- Logo -->
@@ -83,50 +83,61 @@
                                             fill="#7367F0" />
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-heading fw-bold">Vuexy</span>
+                                <span class="app-brand-text demo text-heading fw-bold">VentasFix</span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1">Bienvenido a VentasFix! 👋</h4>
-                        <p class="mb-6">Por favor, ingrese sus credenciales</p>
+                        <h4 class="mb-1">Bienvenido 🚀</h4>
 
-                        <form id="formAuthentication" class="mb-4" form action="{{ Route('usuario.validar') }}" method="POST">
+                        <form id="formAuthentication" class="mb-6" action="index.html" method="GET">
+                            <div class="mb-6">
+                                <label for="username" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="Ingrese su email" autofocus />
+                            </div>
+                            <div class="mb-6">
+                                <label for="rut" class="form-label">RUT</label>
+                                <input type="text" class="form-control" id="rut" name="rut"
+                                    placeholder="Ingrese su RUT" autofocus />
+                            </div>
                             <div class="mb-6">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email-username"
-                                    placeholder="Ingrese su email" autofocus />
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Ingrese su email" />
                             </div>
                             <div class="mb-6 form-password-toggle">
                                 <label class="form-label" for="password">Password</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="Ingrese su contraseña" aria-describedby="password" />
+                                        placeholder="Ingrese su contraseña"
+                                        aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>
+
                             <div class="my-8">
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-check mb-0 ms-2">
-                                        <input class="form-check-input" type="checkbox" id="remember-me" />
-                                        <label class="form-check-label" for="remember-me"> Recuérdame </label>
-                                    </div>
-                                    <div class="mb-6">
-                                        <button class="btn btn-primary d-grid w-100" type="submit">Ingresar</button>
-                                    </div>
+                                <div class="form-check mb-0 ms-2">
+                                    <input class="form-check-input" type="checkbox" id="terms-conditions"
+                                        name="terms" />
+                                    <label class="form-check-label" for="terms-conditions">
+                                        Acepto los
+                                        <a href="javascript:void(0);">términos de uso y condiciones</a>
+                                    </label>
                                 </div>
                             </div>
+                            <button class="btn btn-primary d-grid w-100">Registrar</button>
                         </form>
 
                         <p class="text-center">
-                            <span>¿No tiene una cuenta?</span>
-                            <a href="{{ Route('usuario.registrar') }}">
-                                <span>Ingrese aquí para crear una cuenta nueva</span>
+                            <span>¿Ya tienes una cuenta?</span>
+                            <a href="{{ Route('usuario.login') }}"">
+                                <span>Inicia tu sesión aquí</span>
                             </a>
                         </p>
                     </div>
                 </div>
+                <!-- Register Card -->
             </div>
-            <!-- /Register -->
         </div>
     </div>
 
