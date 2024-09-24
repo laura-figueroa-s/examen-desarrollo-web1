@@ -32,19 +32,25 @@
             <span class="menu-header-text" data-i18n="Administrador">Administrador</span>
         </li>
         <li class="menu-item">
-            <a href="app-email.html" class="menu-link">
+            <a href="{{ Route('backoffice.dashboard') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Dashboard">Dashboard</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{ Route('backoffice.usuarios') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="Usuarios">Usuarios</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="app-chat.html" class="menu-link">
+            <a href="{{ Route('backoffice.clientes') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-truck"></i>
                 <div data-i18n="Clientes">Clientes</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="app-calendar.html" class="menu-link">
+            <a href="{{ Route('backoffice.productos') }}" class="menu-link">
                 <i class="menu-icon fas fa-air-freshener mb-2"></i>
                 <div data-i18n="Productos">Productos</div>
             </a>

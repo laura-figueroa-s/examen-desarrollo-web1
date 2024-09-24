@@ -138,7 +138,6 @@ class UserController extends Controller
         return redirect()->route('usuario.login');
     }
 
-
     public function index()
     {
         $user = Auth::user();

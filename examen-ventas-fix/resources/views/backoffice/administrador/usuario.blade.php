@@ -1,5 +1,9 @@
 @extends('backoffice.layouts.app')
 
-@section('title', 'Dashboard usuarios de VentasFix')
+@section('title', 'Dashboard | Usuarios')
+
+@section('page-title', 'Dashboard de usuarios de VentasFix')
+
+@section('content')
     
 @endsection
