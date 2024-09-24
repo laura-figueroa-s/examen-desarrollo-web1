@@ -7,7 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
     <title>Registrar un nuevo usuario | VentasFixs</title>
 
     <meta name="description" content="" />
@@ -40,7 +39,8 @@
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
     <!-- Vendor -->
-    <link rel="stylesheet" href="../../assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet"
+        href="../../assets/vendor/libs/@form-validation/form-validation.css" />
 
     <!-- Page CSS -->
     <!-- Page -->
@@ -88,64 +88,87 @@
                         </div>
                         <!-- /Logo -->
                         <h4 class="mb-1">Bienvenido 🚀</h4>
-
-                        <form id="formAuthentication" class="mb-6" form action="{{ Route('usuario.registrar') }}" method="POST">
-                            <div class="mb-6">
-                                <label for="username" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="Ingrese su email" autofocus />
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li> @endforeach
+                                </ul>
                             </div>
-                            <div class="mb-6">
-                                <label for="rut" class="form-label">RUT</label>
-                                <input type="text" class="form-control" id="rut" name="rut"
-                                    placeholder="Ingrese su RUT" autofocus />
-                            </div>
-                            <div class="mb-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Ingrese su email" />
-                            </div>
-                            <div class="mb-6 form-password-toggle">
-                                <label class="form-label" for="password">Password</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="Ingrese su contraseña"
-                                        aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-                                </div>
-                            </div>
-
-                            <div class="my-8">
-                                <div class="form-check mb-0 ms-2">
-                                    <input class="form-check-input" type="checkbox" id="terms-conditions"
-                                        name="terms" />
-                                    <label class="form-check-label" for="terms-conditions">
-                                        Acepto los
-                                        <a href="javascript:void(0);">términos de uso y condiciones</a>
-                                    </label>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary d-grid w-100">Registrar</button>
-                        </form>
-
-                        <p class="text-center">
-                            <span>¿Ya tienes una cuenta?</span>
-                            <a href="{{ Route('usuario.login') }}"">
-                                <span>Inicia tu sesión aquí</span>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <!-- Register Card -->
-            </div>
+                        @endif
+                        <form id="formAuthentication"
+        class="mb-6" form action="{{ Route('usuario.registrar') }}" method="POST">
+    @csrf
+    <div class="mb-6">
+        <label for="nombre" class="form-label">Nombre y apellido</label>
+        <input type="text" class="form-control" id="nombre" name="nombre"
+            placeholder="Ingrese su nombre y apellido" />
+    </div>
+    <div class="mb-6">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su usuario"
+            autofocus />
+    </div>
+    <div class="mb-6">
+        <label for="rut" class="form-label">RUT</label>
+        <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese su RUT"
+            autofocus />
+    </div>
+    <div class="mb-6 form-password-toggle">
+        <label class="form-label" for="password">Password</label>
+        <div class="input-group input-group-merge">
+            <input type="password" id="password" class="form-control" name="password"
+                placeholder="Ingrese su contraseña" aria-describedby="password" />
+            <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
         </div>
+    </div>
+
+    <div class="mb-6 form-password-toggle">
+        <label class="form-label" for="rePassword">Reingrese su contraseña</label>
+        <div class="input-group input-group-merge">
+            <input type="password" id="rePassword" class="form-control" name="rePassword"
+                placeholder="Reingrese su contraseña" aria-describedby="rePassword" />
+            <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+        </div>
+    </div>
+
+    <div class="my-8">
+        <div class="form-check mb-0 ms-2">
+            <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+            <label class="form-check-label" for="terms-conditions">
+                Acepto los
+                <a href="javascript:void(0);">términos de uso y condiciones</a>
+            </label>
+        </div>
+    </div>
+    <button class="btn btn-primary d-grid w-100">Registrar</button>
+    </form>
+
+    <p class="text-center">
+        <span>¿Ya tienes una cuenta?</span>
+        <a href="{{ Route('usuario.login') }}"">
+            <span>Inicia tu sesión aquí</span>
+        </a>
+    </p>
+    </div>
+    </div>
+    <!-- Register Card -->
+    </div>
+    </div>
     </div>
 
     <!-- / Content -->
 
+    <!--Impedimos que el usuario ingrese @ en el campo input de email -->
+    {{-- <script>
+        document.getElementById('user-email').addEventListener('input', function(e) {
+            // Replace any non-alphanumeric characters
+            this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+        });
+    </script> --}}
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-
     <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../../assets/vendor/libs/popper/popper.js"></script>
     <script src="../../assets/vendor/js/bootstrap.js"></script>
@@ -168,6 +191,6 @@
 
     <!-- Page JS -->
     <script src="../../assets/js/pages-auth.js"></script>
-</body>
+    </body>
 
 </html>

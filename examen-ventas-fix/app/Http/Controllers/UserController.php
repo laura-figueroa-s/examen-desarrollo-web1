@@ -39,12 +39,22 @@ class UserController extends Controller
     {
         $_request->validate([
             'nombre' => 'required|string|max:50',
-            'email' => 'required|unique:users,email',
+            /* 'email' => 'required|unique:users,email', */
+            'email' => [
+            'required',
+            'email',
+            function ($attribute, $value, $fail) {
+                if (!str_ends_with($value, '@ventasfix.cl')) {
+                    $fail('El correo debe ser @ventasfix.cl');
+                }
+            },
+        ],
+            'rut' => 'required',
             'password' => 'required|string',
             'rePassword' => 'required|string',
         ], $this->mensajes);
-
-        $datos = $_request->only('nombre', 'email', 'password', 'rePassword');
+        
+        $datos = $_request->only('nombre', 'rut', 'email', 'password', 'rePassword');
 
         if ($datos['password'] != $datos['rePassword']) {
             return back()->withErrors(['message' => 'Las contraseñas ingresadas no son iguales.']);
@@ -54,18 +64,52 @@ class UserController extends Controller
             User::create([
                 'nombre' => $datos['nombre'],
                 'email' => $datos['email'],
+                function ($attribute, $value, $fail) {
+                if (!str_ends_with($value, '@fictionalcompany.com')) {
+                    $fail('The email must be a valid @fictionalcompany.com address.');
+                }
+            },
+                'rut' => $datos['rut'],
                 'password' => Hash::make($datos['password']),
-                'activo' => true,
             ]);
             return redirect()->route('usuario.login')->with('success', 'Usuario creado con éxito.');
         } catch (QueryException $e) {
             if ($e->getCode() == 23000) {
-                return back()->withErrors(['message' => 'Error al crear el miembro, el email ya existe.']);
+                return back()->withErrors(['message' => 'Error al crear el usuario, el email ya existe.']);
             }
             return back()->withErrors(['message' => 'Error desconocido: ' . $e->getMessage()]);
         }
     }
+    public function create(Request $_request)
+    {
+        /* $email = $_request->input('email') . '@fictionalcompany.com'; */
 
+        $_request->validate([
+            'nombre' => 'required',
+            'rut' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $usuario = User::create([
+            'nombre' => $_request->nombre,
+            'rut' => $_request->rut,
+            'email' =>$_request->email,
+            'password' => Hash::make($_request->password),
+        ]);
+
+        if ($usuario) {
+            return response()->json([
+                'message' => 'Usuario creado exitosamente',
+                'usuario' => $usuario,
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Ocurrió un error al intentar crear un usuario',
+            ], 500);
+        }
+    }
+    
     public function formularioLogin()
     {
         if (Auth::check()) {
@@ -90,33 +134,6 @@ class UserController extends Controller
         return redirect()->route('usuario.login');
     }
 
-    public function create(Request $_request)
-    {
-        $_request->validate([
-            'nombre' => 'required',
-            'rut' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        $cliente = User::create([
-            'nombre' => $_request->nombre,
-            'rut' => $_request->rut,
-            'email' => $_request->email,
-            'password' => Hash::make($_request->password),
-        ]);
-
-        if ($cliente) {
-            return response()->json([
-                'message' => 'Usuario creado exitosamente',
-                'cliente' => $cliente,
-            ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Ocurrió un error al intentar crear un usuario',
-            ], 500);
-        }
-    }
 
     public function index()
     {
@@ -156,7 +173,7 @@ class UserController extends Controller
         } else {
             return response([
                 'message' => 'error',
-                'cliente' => 'El usuario no existe',
+                'usuario' => 'El usuario no existe',
                 'status' => 404
             ]);
         }
@@ -194,18 +211,18 @@ class UserController extends Controller
     function deleteUser(Request $_request)
     {
         $_request->validate(['id' => 'required']);
-        $cliente = User::find($_request->id);
-        if ($cliente) {
-            $cliente->delete();
+        $usuario = User::find($_request->id);
+        if ($usuario) {
+            $usuario->delete();
             return response([
                 'message' => 'success',
-                'products' => 'El cliente ha sido eliminado exitosamente',
+                'usuario' => 'El usuario ha sido eliminado exitosamente',
                 'status' => 200
             ]);
         } else {
             return response([
                 'message' => 'error',
-                'products' => 'El cliente que deseas eliminar no existe',
+                'usuario' => 'El usuario que deseas eliminar no existe',
                 'status' => 404
             ]);
         }
