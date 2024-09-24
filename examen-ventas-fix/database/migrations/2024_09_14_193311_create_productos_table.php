@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string(column: 'nombre');
             $table->string(column: 'descripcion_corta');
             $table->string(column: 'descripcion_larga');
-            $table->string(column: 'imagen_producto');
+            $table->string(column: 'imagen_producto')->nullable();
             $table->integer(column: 'precio_neto');
             $table->integer(column: 'precio_venta');
             $table->integer(column: 'stock_actual');
