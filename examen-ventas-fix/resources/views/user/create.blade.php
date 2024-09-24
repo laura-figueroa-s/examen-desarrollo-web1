@@ -89,7 +89,7 @@
                         <!-- /Logo -->
                         <h4 class="mb-1">Bienvenido 🚀</h4>
 
-                        <form id="formAuthentication" class="mb-6" action="index.html" method="GET">
+                        <form id="formAuthentication" class="mb-6" form action="{{ Route('usuario.registrar') }}" method="POST">
                             <div class="mb-6">
                                 <label for="username" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="username" name="username"
