@@ -1,3 +1,5 @@
-<div>
-    <!-- The only way to do great work is to love what you do. - Steve Jobs -->
-</div>
+{{ $user }}
+<form action="{{ Route('usuario.logout') }}" method="POST">
+    @csrf
+    <button type="submit">Cerrar Sesión</button>
+</form>

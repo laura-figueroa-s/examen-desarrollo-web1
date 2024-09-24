@@ -24,9 +24,9 @@ class UserController extends Controller
 
         if (Auth::attempt($credenciales)) {
             $user = Auth::user();
-            if (!$user->activo) {
+            if (!$user->email) {
                 Auth::logout();
-                return redirect()->route('usuario.login')->withErrors(['email' => 'El usuario se encuentra desactivado.']);
+                return redirect()->route('usuario.login')->withErrors(['email' => 'El usuario no es válido.']);
             }
             //Autenticacion exitosa
             $_request->session()->regenerate();
@@ -39,6 +39,7 @@ class UserController extends Controller
     {
         $_request->validate([
             'nombre' => 'required|string|max:50',
+            'apellido' => 'required|string|max:50',
             /* 'email' => 'required|unique:users,email', */
             'email' => [
             'required',
@@ -54,7 +55,7 @@ class UserController extends Controller
             'rePassword' => 'required|string',
         ], $this->mensajes);
         
-        $datos = $_request->only('nombre', 'rut', 'email', 'password', 'rePassword');
+        $datos = $_request->only('nombre', 'apellido', 'rut', 'email', 'password', 'rePassword');
 
         if ($datos['password'] != $datos['rePassword']) {
             return back()->withErrors(['message' => 'Las contraseñas ingresadas no son iguales.']);
@@ -64,9 +65,10 @@ class UserController extends Controller
             User::create([
                 'nombre' => $datos['nombre'],
                 'email' => $datos['email'],
+                'apellido' => $datos['apellido'],
                 function ($attribute, $value, $fail) {
-                if (!str_ends_with($value, '@fictionalcompany.com')) {
-                    $fail('The email must be a valid @fictionalcompany.com address.');
+                if (!str_ends_with($value, '@ventasfix.cl')) {
+                    $fail('El correo debe ser @ventasfix.cl');
                 }
             },
                 'rut' => $datos['rut'],
@@ -86,6 +88,7 @@ class UserController extends Controller
 
         $_request->validate([
             'nombre' => 'required',
+            'apellido' => 'required',
             'rut' => 'required',
             'email' => 'required',
             'password' => 'required',
@@ -93,6 +96,7 @@ class UserController extends Controller
 
         $usuario = User::create([
             'nombre' => $_request->nombre,
+            'apellido' => $_request->apellido,
             'rut' => $_request->rut,
             'email' =>$_request->email,
             'password' => Hash::make($_request->password),

@@ -90,10 +90,20 @@
                         <h4 class="mb-1">Bienvenido a VentasFix! 👋</h4>
                         <p class="mb-6">Por favor, ingrese sus credenciales</p>
 
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li> @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <form id="formAuthentication" class="mb-4" form action="{{ Route('usuario.validar') }}" method="POST">
+                            @csrf
                             <div class="mb-6">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email-username"
+                                <input type="email" class="form-control" id="email" name="email"
                                     placeholder="Ingrese su email" autofocus />
                             </div>
                             <div class="mb-6 form-password-toggle">

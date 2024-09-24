@@ -14,16 +14,19 @@ Route::get('/', function () {
 Route::get('/user/login', [UserController::class, 'formularioLogin'])->name('usuario.login');
 Route::post('/user/login', [UserController::class, 'login'])->name('usuario.validar');
 
+Route::post('/logout', [UserController::class, 'logout'])->name('usuario.logout');
+
 Route::get('/users/register', [UserController::class, 'formularioNuevo'])->name('usuario.registrar');
 Route::post('/users/register', [UserController::class, 'registrar'])->name('usuario.registrar');
 
 Route::get('/backoffice', function () {
-    /* $user = Auth::user();
+    $user = Auth::user();
     if ($user == NULL) {
         return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
-    } */
+    }
 
     return view('backoffice.dashboard', [
+        'user' => $user,
         'users' => User::all(),
         'clientes' => Cliente::all(),
         'productos' => Producto::all(),
