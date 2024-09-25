@@ -103,6 +103,7 @@
         <label for="nombre" class="form-label">Nombre</label>
         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre" />
     </div>
+    <div class="mb-6">
         <label for="nombre" class="form-label">Apellido</label>
         <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Ingrese su apellido" />
     </div>
