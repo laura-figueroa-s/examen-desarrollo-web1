@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    //Web Methods
     public function login(Request $_request)
     {
 
         $_request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
-        ], $this->mensajes);
+        ], /* $this->mensajes */);
 
         $credenciales = $_request->only('email', 'password');
 
@@ -35,6 +36,7 @@ class UserController extends Controller
         return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']);
     }
 
+    //Usar "registrar" function solo para web. "create" function es solo para uso mediante api.
     public function registrar(Request $_request)
     {
         $_request->validate([
@@ -53,7 +55,7 @@ class UserController extends Controller
             'rut' => 'required',
             'password' => 'required|string',
             'rePassword' => 'required|string',
-        ], $this->mensajes);
+        ], /* $this->mensajes */);
         
         $datos = $_request->only('nombre', 'apellido', 'rut', 'email', 'password', 'rePassword');
 
@@ -80,37 +82,6 @@ class UserController extends Controller
                 return back()->withErrors(['message' => 'Error al crear el usuario, el email ya existe.']);
             }
             return back()->withErrors(['message' => 'Error desconocido: ' . $e->getMessage()]);
-        }
-    }
-    public function create(Request $_request)
-    {
-        /* $email = $_request->input('email') . '@fictionalcompany.com'; */
-
-        $_request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'rut' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        $usuario = User::create([
-            'nombre' => $_request->nombre,
-            'apellido' => $_request->apellido,
-            'rut' => $_request->rut,
-            'email' =>$_request->email,
-            'password' => Hash::make($_request->password),
-        ]);
-
-        if ($usuario) {
-            return response()->json([
-                'message' => 'Usuario creado exitosamente',
-                'usuario' => $usuario,
-            ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Ocurrió un error al intentar crear un usuario',
-            ], 500);
         }
     }
     
@@ -149,6 +120,7 @@ class UserController extends Controller
 
     public function getAllUsers()
     {
+
         $usuarios = User::all();
         if ($usuarios) {
             return response([
@@ -184,6 +156,170 @@ class UserController extends Controller
 
     public function updateUser(Request $_request)
     {
+
+        $_request->validate([
+            'nombre' => 'required',
+            'rut' => 'required',
+            'email' => 'required',
+        ]);
+
+        $usuario = User::find($_request->id);
+        if ($usuario) {
+            $usuario->nombre = $_request->nombre;
+            $usuario->rut = $_request->rut;
+            $usuario->email = $_request->email;
+            $usuario->password = Hash::make($_request->password);
+            $usuario->save();
+            return response([
+                'message' => 'success',
+                'usuario' => $usuario,
+                'status' => 200
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'usuario' => 'El cliente no existe',
+                'status' => 404
+            ]);
+        }
+    }
+    
+   public function deleteUser(Request $_request)
+    {
+        $_request->validate(['id' => 'required']);
+        $usuario = User::find($_request->id);
+        if ($usuario) {
+            $usuario->delete();
+            return response([
+                'message' => 'success',
+                'usuario' => 'El usuario ha sido eliminado exitosamente',
+                'status' => 200
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'usuario' => 'El usuario que deseas eliminar no existe',
+                'status' => 404
+            ]);
+        }
+    }
+    //Web Methods END
+
+    //API methods
+    
+    public function create(Request $_request)
+    {
+        if ($this->getHeader() == NULL) {
+            return response()->json(['message' => 'Sin Autorización'], 401);
+        }
+
+        if (!$this->getAuthBearer('POST')) {
+            return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
+        }
+
+        $_request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'rut' => 'required',
+            'email' => [
+                'required',
+                'email',
+                function ($attribute, $value, $fail) {
+                    if (!str_ends_with($value, '@ventasfix.cl')) {
+                        $fail('El correo debe ser @ventasfix.cl.');
+                    }
+                },
+            ],
+            'password' => 'required',
+        ]);
+    
+        // If validation passes, create the user
+        try {
+            $usuario = User::create([
+                'nombre' => $_request->nombre,
+                'apellido' => $_request->apellido,
+                'rut' => $_request->rut,
+                'email' => $_request->email,
+                'password' => Hash::make($_request->password),
+            ]);
+    
+            // If the user was created successfully, return a 201 response
+            return response()->json([
+                'message' => 'Usuario creado exitosamente',
+                'usuario' => $usuario,
+            ], 201);
+            
+        } catch (QueryException $e) {
+            // Return a 500 error if something goes wrong with the database operation
+            return response()->json([
+                'message' => 'Ocurrió un error al intentar crear un usuario',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getUserApi(Request $_request)
+    {
+        if ($this->getHeader() == NULL) {
+            return response()->json(['message' => 'Sin Autorización'], 401);
+        }
+
+        if (!$this->getAuthBearer('GET')) {
+            return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
+        }
+
+        $_request->validate(['id' => 'required']);
+        $usuario = User::find($_request->id);
+        if ($usuario) {
+            return response([
+                'message' => 'success',
+                'usuario' => $usuario,
+                'status' => 200
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'usuario' => 'El usuario no existe',
+                'status' => 404
+            ]);
+        }
+    }
+
+    public function getAllUsersApi()
+    {
+
+        if ($this->getHeader() == NULL) {
+            return response()->json(['message' => 'Sin Autorización'], 401);
+        }
+
+        if (!$this->getAuthBearer('GET')) {
+            return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
+        }
+
+        $usuarios = User::all();
+        if ($usuarios) {
+            return response([
+                'message' => 'success',
+                'usuarios' => $usuarios
+            ]);
+        } else {
+            return response([
+                'message' => 'error',
+                'products' => 'No existen usuarios en la base de datos'
+            ]);
+        }
+    }
+
+    public function updateUserAPI(Request $_request)
+    {
+        if ($this->getHeader() == NULL) {
+            return response()->json(['message' => 'Sin Autorización'], 401);
+        }
+
+        if (!$this->getAuthBearer('PUT')) {
+            return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
+        }
+
         $_request->validate([
             'nombre' => 'required',
             'rut' => 'required',
@@ -211,8 +347,17 @@ class UserController extends Controller
         }
     }
 
-    function deleteUser(Request $_request)
+    function deleteUserAPI(Request $_request)
     {
+        
+        if ($this->getHeader() == NULL) {
+            return response()->json(['message' => 'Sin Autorización'], 401);
+        }
+
+        if (!$this->getAuthBearer('DELETE')) {
+            return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
+        }
+        
         $_request->validate(['id' => 'required']);
         $usuario = User::find($_request->id);
         if ($usuario) {
@@ -231,3 +376,4 @@ class UserController extends Controller
         }
     }
 }
+//API Methods END
