@@ -13,14 +13,17 @@ Route::get('/', function () {
     return view('landing.index');
 });
 
+//Login
 Route::get('/user/login', [UserController::class, 'formularioLogin'])->name('usuario.login');
 Route::post('/user/login', [UserController::class, 'login'])->name('usuario.validar');
 
 Route::post('/logout', [UserController::class, 'logout'])->name('usuario.logout');
 
+//Registration
 Route::get('/users/register', [UserController::class, 'formularioNuevo'])->name('usuario.registrar');
 Route::post('/users/register', [UserController::class, 'registrar'])->name('usuario.registrar');
 
+//General dashboard
 Route::get('/backoffice', function () {
     $user = Auth::user();
     if ($user == NULL) {
@@ -64,6 +67,7 @@ Route::get('/backoffice/productos', function(){
     ]);
 })->name('backoffice.productos');
 Route::get('/backoffice/productos/get/{_id}', [ProductoController::class, 'getProduct']);
+Route::get('/backoffice/producto/new',[ProductoController::class, 'register']);
 Route::post('/backoffice/productos/update/{_id}', [ProductoController::class, 'updateProduct'])->name('producto.update');
 Route::post('/backoffice/productos/delete/{_id}', [ProductoController::class, 'deleteProduct'])->name('producto.delete');
 
