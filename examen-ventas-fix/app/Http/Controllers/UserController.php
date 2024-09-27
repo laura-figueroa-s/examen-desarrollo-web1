@@ -322,6 +322,7 @@ class UserController extends Controller
 
         $_request->validate([
             'nombre' => 'required',
+            'apellido' => 'required',
             'rut' => 'required',
             'email' => 'required',
         ]);
@@ -329,6 +330,7 @@ class UserController extends Controller
         $usuario = User::find($_request->id);
         if ($usuario) {
             $usuario->nombre = $_request->nombre;
+            $usuario->apellido = $_request->apellido;
             $usuario->rut = $_request->rut;
             $usuario->email = $_request->email;
             $usuario->password = Hash::make($_request->password);

@@ -51,6 +51,7 @@ Route::get('/backoffice/clientes', function(){
     ]);
 })->name('backoffice.clientes');
 Route::get('/backoffice/clientes/get/{_id}', [ClienteController::class, 'getClient']);
+Route::post('/backoffice/cliente/new', [ClienteController::class, 'register']);
 Route::post('/backoffice/clientes/update/{_id}', [ClienteController::class, 'updateClient'])->name('cliente.update');
 Route::post('/backoffice/clientes/delete/{_id}', [ClienteController::class, 'deleteClient'])->name('cliente.delete');
 
