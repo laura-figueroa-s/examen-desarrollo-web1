@@ -175,8 +175,8 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
-                                        <small class="mb-1 d-block text-body">Won the monthly best seller
-                                            gold badge</small>
+                                        <small class="mb-1 d-block text-body">Won the monthly best seller gold
+                                            badge</small>
                                         <small class="text-muted">1h ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -196,8 +196,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">Charles Franklin</h6>
-                                        <small class="mb-1 d-block text-body">Accepted your
-                                            connection</small>
+                                        <small class="mb-1 d-block text-body">Accepted your connection</small>
                                         <small class="text-muted">12hr ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -218,8 +217,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">New Message ✉️</h6>
-                                        <small class="mb-1 d-block text-body">You have new message from
-                                            Natalie</small>
+                                        <small class="mb-1 d-block text-body">You have new message from Natalie</small>
                                         <small class="text-muted">1h ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -240,8 +238,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">Whoo! You have new order 🛒</h6>
-                                        <small class="mb-1 d-block text-body">ACME Inc. made new order
-                                            $1,154</small>
+                                        <small class="mb-1 d-block text-body">ACME Inc. made new order $1,154</small>
                                         <small class="text-muted">1 day ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -262,8 +259,8 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">Application has been approved 🚀</h6>
-                                        <small class="mb-1 d-block text-body">Your ABC project application
-                                            has been approved.</small>
+                                        <small class="mb-1 d-block text-body">Your ABC project application has been
+                                            approved.</small>
                                         <small class="text-muted">2 days ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -285,8 +282,8 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">Monthly report is generated</h6>
-                                        <small class="mb-1 d-block text-body">July monthly financial report
-                                            is generated </small>
+                                        <small class="mb-1 d-block text-body">July monthly financial report is
+                                            generated </small>
                                         <small class="text-muted">3 days ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -307,8 +304,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">Send connection request</h6>
-                                        <small class="mb-1 d-block text-body">Peter sent you connection
-                                            request</small>
+                                        <small class="mb-1 d-block text-body">Peter sent you connection request</small>
                                         <small class="text-muted">4 days ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -328,8 +324,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">New message from Jane</h6>
-                                        <small class="mb-1 d-block text-body">Your have new message from
-                                            Jane</small>
+                                        <small class="mb-1 d-block text-body">Your have new message from Jane</small>
                                         <small class="text-muted">5 days ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -351,8 +346,8 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 small">CPU is running high</h6>
-                                        <small class="mb-1 d-block text-body">CPU Utilization Percent is
-                                            currently at 88.63%,</small>
+                                        <small class="mb-1 d-block text-body">CPU Utilization Percent is currently at
+                                            88.63%,</small>
                                         <small class="text-muted">5 days ago</small>
                                     </div>
                                     <div class="flex-shrink-0 dropdown-notifications-actions">
@@ -394,8 +389,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <h6 class="mb-0">John Doe</h6>
-                                    <small class="text-muted">Admin</small>
+                                    <h6 class="mb-0">{{ $user->nombre }}</h6>
                                 </div>
                             </div>
                         </a>
@@ -405,8 +399,7 @@
                     </li>
                     <li>
                         <a class="dropdown-item" href="pages-profile-user.html">
-                            <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My
-                                Profile</span>
+                            <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
                         </a>
                     </li>
                     <li>
@@ -439,10 +432,15 @@
                     </li>
                     <li>
                         <div class="d-grid px-2 pt-2 pb-1">
-                            <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                            {{-- <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
                                 <small class="align-middle">Logout</small>
                                 <i class="ti ti-logout ms-2 ti-14px"></i>
-                            </a>
+                            </a> --}}
+                           {{--  {{ $user }} --}}
+                            <form action="{{ Route('usuario.logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-danger d-flex">Cerrar Sesión</button>
+                            </form>
                         </div>
                     </li>
                 </ul>

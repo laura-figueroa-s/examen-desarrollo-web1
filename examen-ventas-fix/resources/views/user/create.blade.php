@@ -7,8 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>Login VentasFix</title>
+    <title>Registrar un nuevo usuario | VentasFixs</title>
 
     <meta name="description" content="" />
 
@@ -40,7 +39,8 @@
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
     <!-- Vendor -->
-    <link rel="stylesheet" href="../../assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet"
+        href="../../assets/vendor/libs/@form-validation/form-validation.css" />
 
     <!-- Page CSS -->
     <!-- Page -->
@@ -60,7 +60,7 @@
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-6">
-                <!-- Login -->
+                <!-- Register Card -->
                 <div class="card">
                     <div class="card-body">
                         <!-- Logo -->
@@ -83,13 +83,11 @@
                                             fill="#7367F0" />
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-heading fw-bold">Vuexy</span>
+                                <span class="app-brand-text demo text-heading fw-bold">VentasFix</span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1">Bienvenido a VentasFix! 👋</h4>
-                        <p class="mb-6">Por favor, ingrese sus credenciales</p>
-
+                        <h4 class="mb-1">Bienvenido 🚀</h4>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -98,53 +96,82 @@
                                 </ul>
                             </div>
                         @endif
-
-                        <form id="formAuthentication" class="mb-4" form action="{{ Route('usuario.validar') }}" method="POST">
-                            @csrf
-                            <div class="mb-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Ingrese su email" autofocus />
-                            </div>
-                            <div class="mb-6 form-password-toggle">
-                                <label class="form-label" for="password">Password</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="Ingrese su contraseña" aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-                                </div>
-                            </div>
-                            <div class="my-8">
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-check mb-0 ms-2">
-                                        <input class="form-check-input" type="checkbox" id="remember-me" />
-                                        <label class="form-check-label" for="remember-me"> Recuérdame </label>
-                                    </div>
-                                    <div class="mb-6">
-                                        <button class="btn btn-primary d-grid w-100" type="submit">Ingresar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
-                        <p class="text-center">
-                            <span>¿No tiene una cuenta?</span>
-                            <a href="{{ Route('usuario.registrar') }}">
-                                <span>Ingrese aquí para crear una cuenta nueva</span>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!-- /Register -->
+                        <form id="formAuthentication"
+        class="mb-6" form action="{{ Route('usuario.registrar') }}" method="POST">
+    @csrf
+    <div class="mb-6">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre" />
+    </div>
+    <div class="mb-6">
+        <label for="nombre" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Ingrese su apellido" />
+    </div>
+    <div class="mb-6">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su usuario"
+            autofocus />
+    </div>
+    <div class="mb-6">
+        <label for="rut" class="form-label">RUT</label>
+        <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese su RUT"
+            autofocus />
+    </div>
+    <div class="mb-6 form-password-toggle">
+        <label class="form-label" for="password">Password</label>
+        <div class="input-group input-group-merge">
+            <input type="password" id="password" class="form-control" name="password"
+                placeholder="Ingrese su contraseña" aria-describedby="password" />
+            <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
         </div>
+    </div>
+
+    <div class="mb-6 form-password-toggle">
+        <label class="form-label" for="rePassword">Reingrese su contraseña</label>
+        <div class="input-group input-group-merge">
+            <input type="password" id="rePassword" class="form-control" name="rePassword"
+                placeholder="Reingrese su contraseña" aria-describedby="rePassword" />
+            <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+        </div>
+    </div>
+
+    <div class="my-8">
+        <div class="form-check mb-0 ms-2">
+            <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+            <label class="form-check-label" for="terms-conditions">
+                Acepto los
+                <a href="javascript:void(0);">términos de uso y condiciones</a>
+            </label>
+        </div>
+    </div>
+    <button class="btn btn-primary d-grid w-100">Registrar</button>
+    </form>
+
+    <p class="text-center">
+        <span>¿Ya tienes una cuenta?</span>
+        <a href="{{ Route('usuario.login') }}"">
+            <span>Inicia tu sesión aquí</span>
+        </a>
+    </p>
+    </div>
+    </div>
+    <!-- Register Card -->
+    </div>
+    </div>
     </div>
 
     <!-- / Content -->
 
+    <!--Impedimos que el usuario ingrese @ en el campo input de email -->
+    {{-- <script>
+        document.getElementById('user-email').addEventListener('input', function(e) {
+            // Replace any non-alphanumeric characters
+            this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+        });
+    </script> --}}
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-
     <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../../assets/vendor/libs/popper/popper.js"></script>
     <script src="../../assets/vendor/js/bootstrap.js"></script>
@@ -167,6 +194,6 @@
 
     <!-- Page JS -->
     <script src="../../assets/js/pages-auth.js"></script>
-</body>
+    </body>
 
 </html>
