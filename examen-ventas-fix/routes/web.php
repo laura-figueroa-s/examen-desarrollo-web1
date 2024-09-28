@@ -52,8 +52,8 @@ Route::get('/backoffice/clientes', function(){
 })->name('backoffice.clientes');
 Route::get('/backoffice/clientes/get/{_id}', [ClienteController::class, 'getClient']);
 Route::post('/backoffice/cliente/new', [ClienteController::class, 'register']);
-Route::post('/backoffice/clientes/update/{_id}', [ClienteController::class, 'updateClient'])->name('cliente.update');
-Route::post('/backoffice/clientes/delete/{_id}', [ClienteController::class, 'deleteClient'])->name('cliente.delete');
+Route::put('/backoffice/clientes/update/{_id}', [ClienteController::class, 'updateClient'])->name('cliente.update');
+Route::delete('/backoffice/clientes/delete/{_id}', [ClienteController::class, 'deleteClient'])->name('cliente.delete');
 
     //Productos
 Route::get('/backoffice/productos', function(){
@@ -68,9 +68,9 @@ Route::get('/backoffice/productos', function(){
     ]);
 })->name('backoffice.productos');
 Route::get('/backoffice/productos/get/{_id}', [ProductoController::class, 'getProduct']);
-Route::get('/backoffice/producto/new',[ProductoController::class, 'register']);
-Route::post('/backoffice/productos/update/{_id}', [ProductoController::class, 'updateProduct'])->name('producto.update');
-Route::post('/backoffice/productos/delete/{_id}', [ProductoController::class, 'deleteProduct'])->name('producto.delete');
+Route::post('/backoffice/producto/new',[ProductoController::class, 'register']);
+Route::put('/backoffice/productos/update/{_id}', [ProductoController::class, 'updateProduct'])->name('producto.update');
+Route::delete('/backoffice/productos/delete/{_id}', [ProductoController::class, 'deleteProduct'])->name('producto.delete');
 
     //Usuarios
 Route::get('/backoffice/usuarios', function(){
@@ -85,5 +85,5 @@ Route::get('/backoffice/usuarios', function(){
     ]);
 })->name('backoffice.usuarios');
 Route::get('/backoffice/usuarios/get/{_id}', [UserController::class, 'getUser']);
-Route::post('/backoffice/usuarios/update/{_id}', [UserController::class, 'updateUser'])->name('usuario.update');
-Route::post('/backoffice/proyectos/delete/{_id}', [UserController::class, 'deleteUser'])->name('usuario.delete');
+Route::put('/backoffice/usuarios/update/{_id}', [UserController::class, 'updateUser'])->name('usuario.update');
+Route::delete('/backoffice/usuarios/delete/{_id}', [UserController::class, 'deleteUser'])->name('usuario.delete');
