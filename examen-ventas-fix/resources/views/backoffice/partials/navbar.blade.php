@@ -432,11 +432,11 @@
                     </li>
                     <li>
                         <div class="d-grid px-2 pt-2 pb-1">
-                            {{-- <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                            <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
                                 <small class="align-middle">Logout</small>
                                 <i class="ti ti-logout ms-2 ti-14px"></i>
-                            </a> --}}
-                           {{--  {{ $user }} --}}
+                            </a>
+                            {{-- {{ $user }} --}}
                             <form action="{{ Route('usuario.logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-danger d-flex">Cerrar Sesión</button>

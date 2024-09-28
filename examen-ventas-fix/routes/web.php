@@ -68,7 +68,7 @@ Route::get('/backoffice/productos', function(){
     ]);
 })->name('backoffice.productos');
 Route::get('/backoffice/productos/get/{_id}', [ProductoController::class, 'getProduct']);
-Route::post('/backoffice/producto/new',[ProductoController::class, 'register']);
+Route::post('/backoffice/producto/new',[ProductoController::class, 'register'])->name('producto.register');
 Route::put('/backoffice/productos/update/{_id}', [ProductoController::class, 'updateProduct'])->name('producto.update');
 Route::delete('/backoffice/productos/delete/{_id}', [ProductoController::class, 'deleteProduct'])->name('producto.delete');
 
