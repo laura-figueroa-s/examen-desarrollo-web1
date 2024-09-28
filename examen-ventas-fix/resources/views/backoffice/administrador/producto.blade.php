@@ -75,7 +75,8 @@
                                         colspan="1" style="width: 171px;">Stock bajo</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" style="width: 171px;">Stock alto</th>
-                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;">Actions
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;">
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
@@ -96,28 +97,23 @@
                                         <td>{{ $producto->stock_alto }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="javascript:;" class="btn btn-icon btn-text-secondary"
-                                                    data-bs-toggle="modal" data-bs-target="#editProduct">
+                                                <button class="btn btn-icon btn-text-secondary" data-bs-toggle="modal"
+                                                    data-bs-target="#editProduct">
                                                     <i class="fa-solid fa-pencil"></i>
-                                                </a>
-                                                <!--<a
-                                            href="javascript:;"
-                                            class="btn btn-primary me-4"
-                                            data-bs-target="#editUser"
-                                            data-bs-toggle="modal"
-                                            >Edit</a
-                                          > -->
-                                                <form class="delete-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
-                                                    id="deleteProductForm" novalidate="novalidate" method="POST"
-                                                    action="{{ route('producto.delete', $producto->id) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="id" value="{{ $producto->id }}">
-                                                    <button type="submit"
-                                                        class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record">
-                                                        <i class="ti ti-trash ti-md"></i>
-                                                    </button>
-                                                </form>
+                                                    </a>
+                                                    <form
+                                                        class="delete-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
+                                                        id="deleteProductForm" novalidate="novalidate" method="POST"
+                                                        action="{{ route('producto.delete', $producto->id) }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $producto->id }}">
+                                                        <button type="submit"
+                                                            class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record">
+                                                            <i class="ti ti-trash ti-md"></i>
+                                                        </button>
+                                                    </form>
 
                                             </div>
                                         </td>
@@ -155,10 +151,12 @@
                                         <li class="paginate_button page-item "><a href="#"
                                                 aria-controls="DataTables_Table_0" role="link" data-dt-idx="4"
                                                 tabindex="0" class="page-link">5</a></li>
-                                        <li class="paginate_button page-item next" id="DataTables_Table_0_next"><a
-                                                href="#" aria-controls="DataTables_Table_0" role="link"
-                                                data-dt-idx="next" tabindex="0" class="page-link"><i
-                                                    class="ti ti-chevron-right ti-sm"></i></a></li>
+                                        <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                            <a href="#" aria-controls="DataTables_Table_0" role="link"
+                                                data-dt-idx="next" tabindex="0" class="page-link">
+                                                <i class="ti ti-chevron-right ti-sm"></i>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -166,7 +164,7 @@
                         <div style="width: 1%;"></div>
                     </div>
                 </div>
-                <!-- Offcanvas to add new user -->
+                <!-- Offcanvas to add new product -->
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddProduct"
                     aria-labelledby="offcanvasAddProductLabel">
                     <div class="offcanvas-header border-bottom">
@@ -175,11 +173,12 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100">
-                        <form class="add-new-product pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewProductForm"
-                            novalidate="novalidate" method="POST" action="{{ route('producto.register') }}">
+                        <form class="add-new-product pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
+                            id="addNewProductForm" novalidate="novalidate" method="POST"
+                            action="{{ route('producto.register') }}">
                             @csrf
                             <div class="mb-6 fv-plugins-icon-container">
-                                <label class="form-label" for="nombre">SKU</label>
+                                <label class="form-label" for="sku">SKU</label>
                                 <input type="text" class="form-control" id="sku" placeholder="SKU"
                                     name="sku" aria-label="sku">
                                 <div
@@ -197,7 +196,8 @@
                             <div class="mb-6">
                                 <label class="form-label" for="descripcion_corta">Descripción Corta</label>
                                 <input type="text" id="descripcion_corta" class="form-control phone-mask"
-                                    placeholder="Descripción Corta" aria-label="Descripción Corta" name="descripcion_corta">
+                                    placeholder="Descripción Corta" aria-label="Descripción Corta"
+                                    name="descripcion_corta">
                             </div>
                             <div class="mb-6 fv-plugins-icon-container">
                                 <label class="form-label" for="descripcion_larga">Descripción Larga</label>
@@ -211,12 +211,12 @@
                             <div class="mb-6">
                                 <label class="form-label" for="precio_neto">Precio Neto</label>
                                 <input type="number" id="precio_neto" class="form-control phone-mask"
-                                placeholder="Ingresa un precio" aria-label="" name="precio_neto">
+                                    placeholder="Ingresa un precio" aria-label="" name="precio_neto" oninput="calculatePrecioVenta()">
                             </div>
                             <div class="mb-6">
-                                <label class="form-label" for="precio_venta">Precio Venta</label>
-                                <input type="number" id="precio_venta" class="form-control phone-mask"
-                                    placeholder="Ingresa un precio" aria-label="" name="precio_venta">
+                                <label class="form-label" for="precio_venta">Precio venta</label>
+                                <input type="text" id="precio_venta" name="precio_venta"
+                                    class="form-control modal-edit-tax-id" placeholder="" readonly/>
                             </div>
                             <div class="mb-6">
                                 <label class="form-label" for="stock_actual">Stock Actual</label>
@@ -258,7 +258,8 @@
                                     <h4 class="mb-2">Editar producto</h4>
                                 </div>
                                 <form id="editProductForm" class="row g-6" method="POST"
-                                    action="{{ route('producto.update', $producto->id) }}">
+                                    action="{{ route('producto.update', $producto->id) }}"
+                                    onsubmit="enablePrecioVenta()">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="id" value="{{ $producto->id }}">
@@ -270,47 +271,50 @@
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="nombre">Nombre</label>
                                         <input type="text" id="nombre" name="nombre" class="form-control"
-                                            placeholder="Actualice el nombre del producto"/>
+                                            placeholder="Actualice el nombre del producto" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="descripcion_corta">Descripcion corta</label>
                                         <input type="text" id="descripcion_corta" name="descripcion_corta"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese descripción corta"/>
+                                            class="form-control modal-edit-tax-id"
+                                            placeholder="Ingrese descripción corta" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="descripcion_larga">Descripcion larga</label>
                                         <input type="text" id="descripcion_larga" name="descripcion_larga"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese descripción larga"/>
+                                            class="form-control modal-edit-tax-id"
+                                            placeholder="Ingrese descripción larga" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="precio_neto">Precio neto</label>
                                         <input type="text" id="precio_neto" name="precio_neto"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese precio neto"/>
+                                            class="form-control modal-edit-tax-id" placeholder="Ingrese precio neto"
+                                            oninput="calculatePrecioVenta()" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="precio_venta">Precio venta</label>
                                         <input type="text" id="precio_venta" name="precio_venta"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese precio venta"/>
+                                            class="form-control modal-edit-tax-id" placeholder="Ingrese precio venta" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="stock_actual">Stock actual</label>
                                         <input type="text" id="stock_actual" name="stock_actual"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock actual"/>
+                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock actual" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="stock_minimo">Stock minimo</label>
                                         <input type="text" id="stock_minimo" name="stock_minimo"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock minimo"/>
+                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock minimo" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="stock_bajo">Stock bajo</label>
                                         <input type="text" id="stock_bajo" name="stock_bajo"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock bajo"/>
+                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock bajo" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="stock_alto">Stock alto</label>
                                         <input type="text" id="stock_alto" name="stock_alto"
-                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock alto"/>
+                                            class="form-control modal-edit-tax-id" placeholder="Ingrese stock alto" />
                                     </div>
                                     <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-primary me-3">Enviar</button>
@@ -329,7 +333,8 @@
     </div>
 @endsection
 <script>
-    function editProduct(id, nombre, sku, descripcion_corta, descripcion_larga, precio_neto, precio_venta, stock_actual, stock_minimo, stock_bajo, stock_alto) {
+    function editProduct(id, nombre, sku, descripcion_corta, descripcion_larga, precio_neto, precio_venta, stock_actual,
+        stock_minimo, stock_bajo, stock_alto) {
         document.getElementById('sku').value = sku; // populate fields
         document.getElementById('nombre').value = nombre; // populate fields
         document.getElementById('descripcion_corta').value = descripcion_corta;
@@ -341,4 +346,19 @@
         document.getElementById('stock_bajo').value = stock_bajo;
         document.getElementById('stock_alto').value = stock_alto;
     }
+
+    function calculatePrecioVenta() {
+        const precioNeto = parseFloat(document.getElementById('precio_neto').value);
+        if (!isNaN(precioNeto)) {
+            // Calculate precio_venta with 19% tax
+            const precioVenta = Math.round(precioNeto * 1.19);
+            document.getElementById('precio_venta').value = precioVenta; // Set the calculated value
+        } else {
+            document.getElementById('precio_venta').value = ''; // Clear if no valid input
+        }
+    }
+
+    /* function enablePrecioVenta() {
+        document.getElementById('precio_venta').disabled = false; // Ensure it's enabled on form submission
+    } */
 </script>

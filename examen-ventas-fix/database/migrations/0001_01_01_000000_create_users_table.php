@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -43,8 +45,8 @@ return new class extends Migration
                 'nombre' => 'Sebastián',
                 'apellido' => 'Cabezas Ríos',
                 'rut'=> '123456-7',
-                'email' => 'scabezas@ciisa.cl',
-                'password' => Hash::make('hola'),
+                'email' => 'scabezas@ventasfix.cl',
+                'password' => Hash::make('holahola'),
             ],
         ]);
     }

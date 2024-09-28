@@ -8,33 +8,6 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row g-6 mb-6">
             <div class="card">
-                {{--                 <div class="card-header border-bottom">
-                    <h5 class="card-title mb-0">Filters</h5>
-                    <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
-                        <div class="col-md-4 user_role"><select id="UserRole" class="form-select text-capitalize">
-                                <option value=""> Select Role </option>
-                                <option value="Admin">Admin</option>
-                                <option value="Author">Author</option>
-                                <option value="Editor">Editor</option>
-                                <option value="Maintainer">Maintainer</option>
-                                <option value="Subscriber">Subscriber</option>
-                            </select></div>
-                        <div class="col-md-4 user_plan"><select id="UserPlan" class="form-select text-capitalize">
-                                <option value=""> Select Plan </option>
-                                <option value="Basic">Basic</option>
-                                <option value="Company">Company</option>
-                                <option value="Enterprise">Enterprise</option>
-                                <option value="Team">Team</option>
-                            </select></div>
-                        <div class="col-md-4 user_status"><select id="FilterTransaction"
-                                class="form-select text-capitalize">
-                                <option value=""> Select Status </option>
-                                <option value="Pending" class="text-capitalize">Pending</option>
-                                <option value="Active" class="text-capitalize">Active</option>
-                                <option value="Inactive" class="text-capitalize">Inactive</option>
-                            </select></div>
-                    </div>
-                </div> --}}
                 @if ($errors->any())
                     @foreach ($errors->all() as $error)
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -90,6 +63,12 @@
                                         colspan="1" style="width: 89px;">Razón Social</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                         colspan="1" style="width: 171px;">Teléfono</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;">Dirección
+                                    </th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;">Persona de contacto
+                                    </th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;">Email de contacto
+                                    </th>
                                     <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;">Actions
                                     </th>
                                 </tr>
@@ -103,19 +82,15 @@
                                         <td>{{ $cliente->rubro }}</td>
                                         <td>{{ $cliente->razon_social }}</td>
                                         <td>{{ $cliente->telefono }}</td>
+                                        <td>{{ $cliente->direccion }}</td>
+                                        <td>{{ $cliente->nombre_persona_contacto }}</td>
+                                        <td>{{ $cliente->email_persona_contacto }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="javascript:;" class="btn btn-icon btn-text-secondary"
+                                                <button {{-- href="javascript:;" --}} class="btn btn-icon btn-text-secondary"
                                                     data-bs-toggle="modal" data-bs-target="#editUser">
                                                     <i class="fa-solid fa-pencil"></i>
                                                 </a>
-                                                <!--<a
-                                            href="javascript:;"
-                                            class="btn btn-primary me-4"
-                                            data-bs-target="#editUser"
-                                            data-bs-toggle="modal"
-                                            >Edit</a
-                                          > -->
                                                 <form class="delete-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
                                                     id="deleteUserForm" novalidate="novalidate" method="POST"
                                                     action="{{ route('cliente.delete', $cliente->id) }}">
