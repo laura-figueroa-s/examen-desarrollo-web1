@@ -36,14 +36,9 @@ class ClienteController extends Controller
 
         // Check if product is saved successfully
         if ($cliente) {
-            return response()->json([
-                'message' => 'Cliente creado exitosamente',
-                'cliente' => $cliente,
-            ], 201);
+            return redirect()->route('backoffice.productos')->with('success', 'Cliente creado con éxito.');
         } else {
-            return response()->json([
-                'message' => 'Ocurrió un error al intentar crear un cliente',
-            ], 500);
+            return redirect()->back()->withErrors(['message' => 'No se pudo crear el cliente.']);
         }
     }
 
@@ -60,15 +55,9 @@ class ClienteController extends Controller
     {
         $clientes = Cliente::all();
         if ($clientes) {
-            return response([
-                'message' => 'success',
-                'clientes' => $clientes
-            ]);
+            return redirect()->route('backoffice.productos')->with('success', 'Clientes obtenidos con éxito.');
         } else {
-            return response([
-                'message' => 'error',
-                'products' => 'No existen clientes en la base de datos'
-            ]);
+            return redirect()->back()->withErrors(['message' => 'No existen clientes en la base de datos.']);
         }
     }
 
@@ -77,17 +66,9 @@ class ClienteController extends Controller
         $_request->validate(['id' => 'required']);
         $cliente = Cliente::find($_request->id);
         if ($cliente) {
-            return response([
-                'message' => 'success',
-                'cliente' => $cliente,
-                'status' => 200
-            ]);
+            return redirect()->route('backoffice.productos')->with('success', 'Clientes obtenidos con éxito.');
         } else {
-            return response([
-                'message' => 'error',
-                'cliente' => 'El cliente no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'No existen clientes en la base de datos.']);
         }
     }
 
@@ -113,17 +94,9 @@ class ClienteController extends Controller
             $cliente->nombre_persona_contacto = $_request->nombre_persona_contacto;
             $cliente->email_persona_contacto = $_request->email_persona_contacto;
             $cliente->save();
-            return response([
-                'message' => 'success',
-                'product' => $cliente,
-                'status' => 200
-            ]);
+            return redirect()->route('backoffice.productos')->with('success', 'Cliente actualizado con éxito.');
         } else {
-            return response([
-                'message' => 'error',
-                'product' => 'El cliente no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'No se pudo actualizar el cliente.']);
         }
     }
 
@@ -133,17 +106,9 @@ class ClienteController extends Controller
         $cliente = Cliente::find($_request->id);
         if ($cliente) {
             $cliente->delete();
-            return response([
-                'message' => 'success',
-                'products' => 'El cliente ha sido eliminado exitosamente',
-                'status' => 200
-            ]);
+            return redirect()->route('backoffice.productos')->with('success', 'Cliente eliminado con éxito.');
         } else {
-            return response([
-                'message' => 'error',
-                'products' => 'El cliente que deseas eliminar no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'No se pudo eliminar el cliente.']);
         }
     }
 
