@@ -44,19 +44,19 @@ class UserController extends Controller
             'apellido' => 'required|string|max:50',
             /* 'email' => 'required|unique:users,email', */
             'email' => [
-            'required',
-            'email',
-            function ($attribute, $value, $fail) {
-                if (!str_ends_with($value, '@ventasfix.cl')) {
-                    $fail('El correo debe ser @ventasfix.cl');
-                }
-            },
-        ],
+                'required',
+                'email',
+                function ($attribute, $value, $fail) {
+                    if (!str_ends_with($value, '@ventasfix.cl')) {
+                        $fail('El correo debe ser @ventasfix.cl');
+                    }
+                },
+            ],
             'rut' => 'required',
             'password' => 'required|string',
             'rePassword' => 'required|string',
         ], /* $this->mensajes */);
-        
+
         $datos = $_request->only('nombre', 'apellido', 'rut', 'email', 'password', 'rePassword');
 
         if ($datos['password'] != $datos['rePassword']) {
@@ -69,10 +69,10 @@ class UserController extends Controller
                 'email' => $datos['email'],
                 'apellido' => $datos['apellido'],
                 function ($attribute, $value, $fail) {
-                if (!str_ends_with($value, '@ventasfix.cl')) {
-                    $fail('El correo debe ser @ventasfix.cl');
-                }
-            },
+                    if (!str_ends_with($value, '@ventasfix.cl')) {
+                        $fail('El correo debe ser @ventasfix.cl');
+                    }
+                },
                 'rut' => $datos['rut'],
                 'password' => Hash::make($datos['password']),
             ]);
@@ -84,7 +84,7 @@ class UserController extends Controller
             return back()->withErrors(['message' => 'Error desconocido: ' . $e->getMessage()]);
         }
     }
-    
+
     public function formularioLogin()
     {
         if (Auth::check()) {
@@ -120,20 +120,10 @@ class UserController extends Controller
 
     public function getAllUsers()
     {
-
         $usuarios = User::all();
-        if ($usuarios) {
-            return response([
-                'message' => 'success',
-                'usuarios' => $usuarios
-            ]);
-        } else {
-            return response([
-                'message' => 'error',
-                'products' => 'No existen usuarios en la base de datos'
-            ]);
-        }
+        return view('users.index', compact('usuarios')); // Assuming your view file is users/index.blade.php
     }
+
 
     public function getUser(Request $_request)
     {
@@ -183,8 +173,8 @@ class UserController extends Controller
             ]);
         }
     }
-    
-   public function deleteUser(Request $_request)
+
+    public function deleteUser(Request $_request)
     {
         $_request->validate(['id' => 'required']);
         $usuario = User::find($_request->id);
@@ -206,7 +196,7 @@ class UserController extends Controller
     //Web Methods END
 
     //API methods
-    
+
     public function create(Request $_request)
     {
         if ($this->getHeader() == NULL) {
@@ -232,7 +222,7 @@ class UserController extends Controller
             ],
             'password' => 'required',
         ]);
-    
+
         // If validation passes, create the user
         try {
             $usuario = User::create([
@@ -242,13 +232,12 @@ class UserController extends Controller
                 'email' => $_request->email,
                 'password' => Hash::make($_request->password),
             ]);
-    
+
             // If the user was created successfully, return a 201 response
             return response()->json([
                 'message' => 'Usuario creado exitosamente',
                 'usuario' => $usuario,
             ], 201);
-            
         } catch (QueryException $e) {
             // Return a 500 error if something goes wrong with the database operation
             return response()->json([
@@ -351,7 +340,7 @@ class UserController extends Controller
 
     function deleteUserAPI(Request $_request)
     {
-        
+
         if ($this->getHeader() == NULL) {
             return response()->json(['message' => 'Sin Autorización'], 401);
         }
@@ -359,7 +348,7 @@ class UserController extends Controller
         if (!$this->getAuthBearer('DELETE')) {
             return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
         }
-        
+
         $_request->validate(['id' => 'required']);
         $usuario = User::find($_request->id);
         if ($usuario) {

@@ -73,60 +73,42 @@
                                         colspan="1" style="width: 18px;" data-col="1" aria-label=""><input
                                             type="checkbox" class="form-check-input"></th>
                                     <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0"
-                                        rowspan="1" colspan="1" style="width: 287px;"
-                                        aria-label="User: activate to sort column ascending" aria-sort="descending">Nombre
+                                        rowspan="1" colspan="1" style="width: 287px;" aria-sort="descending">Nombre
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" style="width: 128px;"
-                                        aria-label="Role: activate to sort column ascending">Apellido</th>
+                                        colspan="1" style="width: 128px;">Apellido</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" style="width: 89px;"
-                                        aria-label="Plan: activate to sort column ascending">Rut</th>
+                                        colspan="1" style="width: 89px;">Rut</th>
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                        colspan="1" style="width: 171px;"
-                                        aria-label="Billing: activate to sort column ascending">Email</th>
-                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;"
-                                        aria-label="Actions">Actions</th>
+                                        colspan="1" style="width: 171px;">Email</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 149px;">Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd">
-                                    <td class="control dtr-hidden" style="display: none;" tabindex="0"></td>
-                                    <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                            class="dt-checkboxes form-check-input"></td>
-                                    <td class="sorting_1">
-                                        <div class="d-flex justify-content-start align-items-center user-name">
-                                            <div class="avatar-wrapper">
-                                                <div class="avatar avatar-sm me-4"><img
-                                                        src="../../assets/img/avatars/2.png" alt="Avatar"
-                                                        class="rounded-circle"></div>
+                                @foreach ($usuarios as $usuario)
+                                    <tr>
+                                        <td class="control dtr-hidden" style="display: none;" tabindex="0"></td>
+                                        <td><input type="checkbox" class="form-check-input"></td>
+                                        <td>{{ $usuario->nombre }}</td>
+                                        <td>{{ $usuario->apellido }}</td>
+                                        <td>{{ $usuario->rut }}</td>
+                                        <td>{{ $usuario->email }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <a href="{{ route('usuario.delete', $usuario->id) }}"
+                                                    class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record"><i
+                                                        class="ti ti-trash ti-md"></i></a>
+                                                <a href="{{ route('usuario.update', $usuario->id) }}"
+                                                    class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg></a>
                                             </div>
-                                            <div class="d-flex flex-column"><a href="app-user-view-account.html"
-                                                    class="text-heading text-truncate"><span class="fw-medium">Zsazsa
-                                                        McCleverty</span></a><small>zmcclevertye@soundcloud.com</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-truncate d-flex align-items-center text-heading"><i
-                                                class="ti ti-user ti-md text-success me-2"></i>Maintainer</span></td>
-                                    <td><span class="text-heading">Enterprise</span></td>
-                                    <td>Auto Debit</td>
-                                    <td style="" class="">
-                                        <div class="d-flex align-items-center"><a href="javascript:;"
-                                                class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record"><i
-                                                    class="ti ti-trash ti-md"></i></a><a href="app-user-view-account.html"
-                                                class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill"><i
-                                                    class="ti ti-eye ti-md"></i></a><a href="javascript:;"
-                                                class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-md"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-end m-0">
-                                                <a href="javascript:;" "="" class="dropdown-item">Edit</a><a href="javascript:;" class="dropdown-item">Suspend</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+
                         <div class="row">
                             <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
