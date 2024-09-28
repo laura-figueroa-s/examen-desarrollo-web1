@@ -124,7 +124,6 @@ class UserController extends Controller
         return view('users.index', compact('usuarios')); // Assuming your view file is users/index.blade.php
     }
 
-
     public function getUser(Request $_request)
     {
         $_request->validate(['id' => 'required']);
@@ -144,35 +143,42 @@ class UserController extends Controller
         }
     }
 
-    public function updateUser(Request $_request)
+    public function updateUser(Request $request, $id)
     {
-
-        $_request->validate([
+        // Validate request data
+        $request->validate([
             'nombre' => 'required',
+            'apellido' => 'required',
             'rut' => 'required',
             'email' => 'required',
+            'password' => 'required'
         ]);
 
-        $usuario = User::find($_request->id);
+        // Find the user by the ID passed in the route
+        $usuario = User::find($id);
+
         if ($usuario) {
-            $usuario->nombre = $_request->nombre;
-            $usuario->rut = $_request->rut;
-            $usuario->email = $_request->email;
-            $usuario->password = Hash::make($_request->password);
+            // Update user details
+            $usuario->nombre = $request->nombre;
+            $usuario->apellido = $request->apellido;
+            $usuario->rut = $request->rut;
+            $usuario->email = $request->email;
+
+            // Only update the password if it's provided
+            if ($request->password) {
+                $usuario->password = Hash::make($request->password);
+            }
+
+            // Save updated user
             $usuario->save();
-            return response([
-                'message' => 'success',
-                'usuario' => $usuario,
-                'status' => 200
-            ]);
+
+            // Redirect with success message
+            return redirect()->route('backoffice.usuarios')->with('success', 'User updated successfully.');
         } else {
-            return response([
-                'message' => 'error',
-                'usuario' => 'El cliente no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'User not found']);
         }
     }
+
 
     public function deleteUser(Request $_request)
     {
@@ -180,17 +186,9 @@ class UserController extends Controller
         $usuario = User::find($_request->id);
         if ($usuario) {
             $usuario->delete();
-            return response([
-                'message' => 'success',
-                'usuario' => 'El usuario ha sido eliminado exitosamente',
-                'status' => 200
-            ]);
+            return redirect()->route('backoffice.usuarios')->with('success', 'User deleted successfully.');
         } else {
-            return response([
-                'message' => 'error',
-                'usuario' => 'El usuario que deseas eliminar no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'User not found']);
         }
     }
     //Web Methods END

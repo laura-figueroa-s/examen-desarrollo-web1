@@ -35,6 +35,14 @@
                             </select></div>
                     </div>
                 </div> --}}
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> {{ $error }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endforeach
+                @endif
                 <div class="card-datatable table-responsive">
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                         <div class="row">
@@ -97,21 +105,29 @@
                                         <td>{{ $usuario->email }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="{{ route('usuario.update', $usuario->id) }}"
-                                                    class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow"
-                                                    data-bs-target="#editUser" data-bs-toggle="modal">
-                                                    <i class="fa-solid fa-pencil"></i></a>
+                                                <a href="javascript:;" class="btn btn-icon btn-text-secondary"
+                                                    data-bs-toggle="modal" data-bs-target="#editUser">
+                                                    <i class="fa-solid fa-pencil"></i>
+                                                </a>
                                                 <!--<a
-                                    href="javascript:;"
-                                    class="btn btn-primary me-4"
-                                    data-bs-target="#editUser"
-                                    data-bs-toggle="modal"
-                                    >Edit</a
-                                  > -->
-                                                <a href="{{ route('usuario.delete', $usuario->id) }}"
-                                                    class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record data-bs-toggle="offcanvas"
-                                                    data-bs-target="#offcanvasEditUser""><i
-                                                        class="ti ti-trash ti-md"></i></a>
+                                            href="javascript:;"
+                                            class="btn btn-primary me-4"
+                                            data-bs-target="#editUser"
+                                            data-bs-toggle="modal"
+                                            >Edit</a
+                                          > -->
+                                                <form class="delete-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
+                                                    id="deleteUserForm" novalidate="novalidate" method="POST"
+                                                    action="{{ route('usuario.delete', $usuario->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="id" value="{{ $usuario->id }}">
+                                                    <button type="submit"
+                                                        class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record">
+                                                        <i class="ti ti-trash ti-md"></i>
+                                                    </button>
+                                                </form>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -169,7 +185,8 @@
                     </div>
                     <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100">
                         <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
-                            onsubmit="return false" novalidate="novalidate">
+                            novalidate="novalidate" method="POST" action="{{ route('usuario.registrar') }}">
+                            @csrf
                             <div class="mb-6 fv-plugins-icon-container">
                                 <label class="form-label" for="nombre">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" placeholder="John Doe"
@@ -202,11 +219,16 @@
                             </div>
                             <div class="mb-6">
                                 <label class="form-label" for="password">Contraseña</label>
-                                <input type="password" id="password" class="form-control phone-mask" placeholder="******"
-                                    aria-label="" name="password">
+                                <input type="password" id="password" class="form-control phone-mask"
+                                    placeholder="******" aria-label="" name="password">
+                            </div>
+                            <div class="mb-6">
+                                <label class="form-label" for="rePassword">Reingrese su contraseña</label>
+                                <input type="password" id="rePassword" class="form-control phone-mask"
+                                    placeholder="******" aria-label="" name="rePassword">
                             </div>
                             <button type="submit"
-                                class="btn btn-primary me-3 data-submit waves-effect waves-light">Submit</button>
+                                class="btn btn-primary me-3 data-submit waves-effect waves-light">Enviar</button>
                             <button type="reset" class="btn btn-label-danger waves-effect"
                                 data-bs-dismiss="offcanvas">Cancel</button>
                             <input type="hidden">
@@ -222,28 +244,31 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                                 <div class="text-center mb-6">
-                                    <h4 class="mb-2">Edit User Information</h4>
+                                    <h4 class="mb-2">Editar usuario</h4>
                                 </div>
-                                <form id="editUserForm" class="row g-6" onsubmit="return false">
+                                <form id="editUserForm" class="row g-6" method="POST"
+                                    action="{{ route('usuario.update', $usuario->id) }}">
+                                    @csrf
+                                    @method('PUT')
                                     <div class="col-12 col-md-6">
-                                        <label class="form-label" for="name">Nombre</label>
-                                        <input type="text" id="name" name="name" class="form-control"
+                                        <label class="form-label" for="nombre">Nombre</label>
+                                        <input type="text" id="nombre" name="nombre" class="form-control"
                                             placeholder="Actualice su nombre" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="apellido">Apellido</label>
                                         <input type="text" id="apellido" name="apellido" class="form-control"
-                                            placeholder="Actualice su apellido" />
+                                            placeholder="Actualice su apellido"/>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="rut">RUT</label>
                                         <input type="text" id="rut" name="rut"
-                                            class="form-control modal-edit-tax-id" placeholder="12345678-9" />
+                                            class="form-control modal-edit-tax-id" placeholder="12345678-9"/>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="email">Email</label>
                                         <input type="text" id="email" name="email" class="form-control"
-                                            placeholder="example@ventasfix.cl" />
+                                            placeholder="example@ventasfix.cl"/>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="password">Contraseña</label>
@@ -262,8 +287,15 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 @endsection
+<script>
+    function editUser(id, nombre, apellido, email, rut) {
+        document.getElementById('nombre').value = nombre; // populate fields
+        document.getElementById('apellido').value = apellido;
+        document.getElementById('email').value = email;
+        document.getElementById('rut').value = rut;
+    }
+</script>
