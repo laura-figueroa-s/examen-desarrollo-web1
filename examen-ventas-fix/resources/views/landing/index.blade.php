@@ -42,7 +42,7 @@
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="{{ Route('usuario.login') }}">Login</a>
                 </li>
             </ul>
         </div>
