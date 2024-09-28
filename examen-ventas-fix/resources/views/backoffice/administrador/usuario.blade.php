@@ -58,7 +58,8 @@
                                             tabindex="0" aria-controls="DataTables_Table_0" type="button"
                                             data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i
                                                     class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                    class="d-none d-sm-inline-block">Add New User</span></span></button>
+                                                    class="d-none d-sm-inline-block">Registrar un nuevo
+                                                    usuario</span></span></button>
                                     </div>
                                 </div>
                             </div>
@@ -101,12 +102,12 @@
                                                     data-bs-target="#editUser" data-bs-toggle="modal">
                                                     <i class="fa-solid fa-pencil"></i></a>
                                                 <!--<a
-                                href="javascript:;"
-                                class="btn btn-primary me-4"
-                                data-bs-target="#editUser"
-                                data-bs-toggle="modal"
-                                >Edit</a
-                              > -->
+                                    href="javascript:;"
+                                    class="btn btn-primary me-4"
+                                    data-bs-target="#editUser"
+                                    data-bs-toggle="modal"
+                                    >Edit</a
+                                  > -->
                                                 <a href="{{ route('usuario.delete', $usuario->id) }}"
                                                     class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record data-bs-toggle="offcanvas"
                                                     data-bs-target="#offcanvasEditUser""><i
@@ -170,95 +171,39 @@
                         <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
                             onsubmit="return false" novalidate="novalidate">
                             <div class="mb-6 fv-plugins-icon-container">
-                                <label class="form-label" for="add-user-fullname">Full Name</label>
-                                <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"
-                                    name="userFullname" aria-label="John Doe">
+                                <label class="form-label" for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="John Doe"
+                                    name="nombre" aria-label="John Doe">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                 </div>
                             </div>
                             <div class="mb-6 fv-plugins-icon-container">
-                                <label class="form-label" for="add-user-email">Email</label>
-                                <input type="text" id="add-user-email" class="form-control"
-                                    placeholder="john.doe@example.com" aria-label="john.doe@example.com"
-                                    name="userEmail">
+                                <label class="form-label" for="apellido">Apellido</label>
+                                <input type="text" class="form-control" id="apellido" placeholder="John Doe"
+                                    name="apellido" aria-label="John Doe">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <label class="form-label" for="add-user-contact">Contact</label>
-                                <input type="text" id="add-user-contact" class="form-control phone-mask"
-                                    placeholder="+1 (609) 988-44-11" aria-label="john.doe@example.com"
-                                    name="userContact">
+                                <label class="form-label" for="rut">Rut</label>
+                                <input type="text" id="rut" class="form-control phone-mask"
+                                    placeholder="12345678-9" aria-label="12345678-9" name="rut">
+                            </div>
+                            <div class="mb-6 fv-plugins-icon-container">
+                                <label class="form-label" for="add-user-email">Email</label>
+                                <input type="email" id="add-user-email" class="form-control"
+                                    placeholder="john.doe@ventasfix.cl" aria-label="john.doe@ventasfix.cl"
+                                    name="email">
+                                <div
+                                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                </div>
                             </div>
                             <div class="mb-6">
-                                <label class="form-label" for="add-user-company">Company</label>
-                                <input type="text" id="add-user-company" class="form-control"
-                                    placeholder="Web Developer" aria-label="jdoe1" name="companyName">
-                            </div>
-                            <div class="mb-6">
-                                <label class="form-label" for="country">Country</label>
-                                <div class="position-relative"><select id="country"
-                                        class="select2 form-select select2-hidden-accessible" data-select2-id="country"
-                                        tabindex="-1" aria-hidden="true">
-                                        <option value="" data-select2-id="2">Select</option>
-                                        <option value="Australia">Australia</option>
-                                        <option value="Bangladesh">Bangladesh</option>
-                                        <option value="Belarus">Belarus</option>
-                                        <option value="Brazil">Brazil</option>
-                                        <option value="Canada">Canada</option>
-                                        <option value="China">China</option>
-                                        <option value="France">France</option>
-                                        <option value="Germany">Germany</option>
-                                        <option value="India">India</option>
-                                        <option value="Indonesia">Indonesia</option>
-                                        <option value="Israel">Israel</option>
-                                        <option value="Italy">Italy</option>
-                                        <option value="Japan">Japan</option>
-                                        <option value="Korea">Korea, Republic of</option>
-                                        <option value="Mexico">Mexico</option>
-                                        <option value="Philippines">Philippines</option>
-                                        <option value="Russia">Russian Federation</option>
-                                        <option value="South Africa">South Africa</option>
-                                        <option value="Thailand">Thailand</option>
-                                        <option value="Turkey">Turkey</option>
-                                        <option value="Ukraine">Ukraine</option>
-                                        <option value="United Arab Emirates">United Arab Emirates</option>
-                                        <option value="United Kingdom">United Kingdom</option>
-                                        <option value="United States">United States</option>
-                                    </select><span class="select2 select2-container select2-container--default"
-                                        dir="ltr" data-select2-id="1" style="width: 352px;"><span
-                                            class="selection"><span class="select2-selection select2-selection--single"
-                                                role="combobox" aria-haspopup="true" aria-expanded="false"
-                                                tabindex="0" aria-disabled="false"
-                                                aria-labelledby="select2-country-container"><span
-                                                    class="select2-selection__rendered" id="select2-country-container"
-                                                    role="textbox" aria-readonly="true"><span
-                                                        class="select2-selection__placeholder">Select
-                                                        Country</span></span><span class="select2-selection__arrow"
-                                                    role="presentation"><b
-                                                        role="presentation"></b></span></span></span><span
-                                            class="dropdown-wrapper" aria-hidden="true"></span></span></div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="form-label" for="user-role">User Role</label>
-                                <select id="user-role" class="form-select">
-                                    <option value="subscriber">Subscriber</option>
-                                    <option value="editor">Editor</option>
-                                    <option value="maintainer">Maintainer</option>
-                                    <option value="author">Author</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </div>
-                            <div class="mb-6">
-                                <label class="form-label" for="user-plan">Select Plan</label>
-                                <select id="user-plan" class="form-select">
-                                    <option value="basic">Basic</option>
-                                    <option value="enterprise">Enterprise</option>
-                                    <option value="company">Company</option>
-                                    <option value="team">Team</option>
-                                </select>
+                                <label class="form-label" for="password">Contraseña</label>
+                                <input type="password" id="password" class="form-control phone-mask" placeholder="******"
+                                    aria-label="" name="password">
                             </div>
                             <button type="submit"
                                 class="btn btn-primary me-3 data-submit waves-effect waves-light">Submit</button>
@@ -282,28 +227,28 @@
                                 <form id="editUserForm" class="row g-6" onsubmit="return false">
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="name">Nombre</label>
-                                        <input type="text" id="name" name="name"
-                                            class="form-control" placeholder="Actualice su nombre"/>
+                                        <input type="text" id="name" name="name" class="form-control"
+                                            placeholder="Actualice su nombre" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="apellido">Apellido</label>
-                                        <input type="text" id="apellido" name="apellido"
-                                            class="form-control" placeholder="Actualice su apellido"/>
+                                        <input type="text" id="apellido" name="apellido" class="form-control"
+                                            placeholder="Actualice su apellido" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="rut">RUT</label>
                                         <input type="text" id="rut" name="rut"
-                                            class="form-control modal-edit-tax-id" placeholder="12345678-9"/>
+                                            class="form-control modal-edit-tax-id" placeholder="12345678-9" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="email">Email</label>
-                                        <input type="text" id="email" name="email"
-                                            class="form-control" placeholder="example@ventasfix.cl"/>
+                                        <input type="text" id="email" name="email" class="form-control"
+                                            placeholder="example@ventasfix.cl" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="password">Contraseña</label>
-                                        <input type="password" id="password" name="password"
-                                            class="form-control" placeholder="Actualice su contraseña"/>
+                                        <input type="password" id="password" name="password" class="form-control"
+                                            placeholder="Actualice su contraseña" />
                                     </div>
                                     <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-primary me-3">Enviar</button>
