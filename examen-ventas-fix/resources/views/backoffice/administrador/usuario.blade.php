@@ -169,7 +169,8 @@
                     </div>
                     <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100">
                         <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
-                            onsubmit="return false" novalidate="novalidate">
+                             novalidate="novalidate" method="POST" action="{{ route ('usuario.registrar')}}">
+                            @csrf
                             <div class="mb-6 fv-plugins-icon-container">
                                 <label class="form-label" for="nombre">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" placeholder="John Doe"
@@ -205,8 +206,13 @@
                                 <input type="password" id="password" class="form-control phone-mask" placeholder="******"
                                     aria-label="" name="password">
                             </div>
+                            <div class="mb-6">
+                                <label class="form-label" for="rePassword">Reingrese su contraseña</label>
+                                <input type="password" id="rePassword" class="form-control phone-mask" placeholder="******"
+                                    aria-label="" name="rePassword">
+                            </div>
                             <button type="submit"
-                                class="btn btn-primary me-3 data-submit waves-effect waves-light">Submit</button>
+                                class="btn btn-primary me-3 data-submit waves-effect waves-light">Enviar</button>
                             <button type="reset" class="btn btn-label-danger waves-effect"
                                 data-bs-dismiss="offcanvas">Cancel</button>
                             <input type="hidden">
@@ -224,7 +230,7 @@
                                 <div class="text-center mb-6">
                                     <h4 class="mb-2">Edit User Information</h4>
                                 </div>
-                                <form id="editUserForm" class="row g-6" onsubmit="return false">
+                                <form id="editUserForm" class="row g-6">
                                     <div class="col-12 col-md-6">
                                         <label class="form-label" for="name">Nombre</label>
                                         <input type="text" id="name" name="name" class="form-control"
@@ -251,7 +257,7 @@
                                             placeholder="Actualice su contraseña" />
                                     </div>
                                     <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-primary me-3">Enviar</button>
+                                        <button type="submit"  class="btn btn-primary me-3">Enviar</button>
                                         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
                                             aria-label="Close">
                                             Cancel
