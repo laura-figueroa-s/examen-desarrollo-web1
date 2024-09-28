@@ -51,14 +51,9 @@ class ProductoController extends Controller
 
         // Check if product is saved successfully
         if ($producto) {
-            return response()->json([
-                'message' => 'Product created successfully',
-                'producto' => $producto,
-            ], 201);
+            return redirect()->route('backoffice.productos')->with('success', 'Producto creado con éxito.');
         } else {
-            return response()->json([
-                'message' => 'Failed to create product',
-            ], 500);
+            return redirect()->back()->withErrors(['message' => 'No se pudo crear el producto.']);
         }
     }
 
@@ -93,17 +88,9 @@ class ProductoController extends Controller
         $_request->validate(['id' => 'required']);
         $producto = Producto::find($_request->id);
         if ($producto) {
-            return response([
-                'message' => 'success',
-                'product' => $producto,
-                'status' => 200
-            ]);
+            return redirect()->route('backoffice.productos')->with('success', 'Productos obtenidos con éxito.');
         } else {
-            return response([
-                'message' => 'error',
-                'product' => 'El producto no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'No se consiguió el producto.']);
         }
     }
 
@@ -135,17 +122,9 @@ class ProductoController extends Controller
             $producto->stock_bajo = $_request->stock_bajo;
             $producto->stock_alto = $_request->stock_alto;
             $producto->save();
-            return response([
-                'message' => 'success',
-                'product' => $producto,
-                'status' => 200
-            ]);
+            return redirect()->route('backoffice.productos')->with('success', 'Producto actualizado con éxito.');
         } else {
-            return response([
-                'message' => 'error',
-                'product' => 'El producto no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'No se consiguió el producto.']);
         }
     }
 
@@ -155,17 +134,9 @@ class ProductoController extends Controller
         $producto = Producto::find($_request->id);
         if ($producto) {
             $producto->delete();
-            return response([
-                'message' => 'success',
-                'products' => 'El producto ha sido eliminado exitosamente',
-                'status' => 200
-            ]);
+            return redirect()->route('backoffice.productos')->with('success', 'Producto eliminado con éxito.');
         } else {
-            return response([
-                'message' => 'error',
-                'products' => 'El producto que deseas eliminar no existe',
-                'status' => 404
-            ]);
+            return redirect()->back()->withErrors(['message' => 'No se consiguió el producto.']);
         }
     }
 

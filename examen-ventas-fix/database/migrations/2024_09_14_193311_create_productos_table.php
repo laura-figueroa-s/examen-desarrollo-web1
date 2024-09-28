@@ -26,6 +26,22 @@ return new class extends Migration
             $table->integer(column: 'stock_alto');
             $table->timestamps();
         });
+
+        DB::table(table: 'productos')->insert([
+            [
+                'sku' => 'c0d1g0',
+                'nombre' => 'Producto 1',
+                'descripcion_corta'=> 'Descripción Corta',
+                'descripcion_larga' => 'Descripción Larga',
+                'imagen_producto'=> null,
+                'precio_neto'=> '10',
+                'precio_venta'=> '10',
+                'stock_actual'=> '10',
+                'stock_minimo'=> '1',
+                'stock_bajo'=> '1',
+                'stock_alto'=> '10',
+            ],
+        ]);
     }
 
     /**

@@ -179,49 +179,69 @@
                             novalidate="novalidate" method="POST" action="{{ route('producto.register') }}">
                             @csrf
                             <div class="mb-6 fv-plugins-icon-container">
+                                <label class="form-label" for="nombre">SKU</label>
+                                <input type="text" class="form-control" id="sku" placeholder="SKU"
+                                    name="sku" aria-label="sku">
+                                <div
+                                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                </div>
+                            </div>
+                            <div class="mb-6 fv-plugins-icon-container">
                                 <label class="form-label" for="nombre">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" placeholder="John Doe"
-                                    name="nombre" aria-label="John Doe">
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre"
+                                    name="nombre" aria-label="Nombre">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                 </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="form-label" for="descripcion_corta">Descripción Corta</label>
+                                <input type="text" id="descripcion_corta" class="form-control phone-mask"
+                                    placeholder="Descripción Corta" aria-label="Descripción Corta" name="descripcion_corta">
                             </div>
                             <div class="mb-6 fv-plugins-icon-container">
-                                <label class="form-label" for="apellido">Apellido</label>
-                                <input type="text" class="form-control" id="apellido" placeholder="John Doe"
-                                    name="apellido" aria-label="John Doe">
+                                <label class="form-label" for="descripcion_larga">Descripción Larga</label>
+                                <input type="text" id="descripcion_larga" class="form-control"
+                                    placeholder="Descripción Larga" aria-label="Descripción Larga"
+                                    name="descripcion_larga">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <label class="form-label" for="rut">Rut</label>
-                                <input type="text" id="rut" class="form-control phone-mask"
-                                    placeholder="12345678-9" aria-label="12345678-9" name="rut">
-                            </div>
-                            <div class="mb-6 fv-plugins-icon-container">
-                                <label class="form-label" for="add-product-email">Email</label>
-                                <input type="email" id="add-product-email" class="form-control"
-                                    placeholder="john.doe@ventasfix.cl" aria-label="john.doe@ventasfix.cl"
-                                    name="email">
-                                <div
-                                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                </div>
+                                <label class="form-label" for="precio_neto">Precio Neto</label>
+                                <input type="number" id="precio_neto" class="form-control phone-mask"
+                                placeholder="Ingresa un precio" aria-label="" name="precio_neto">
                             </div>
                             <div class="mb-6">
-                                <label class="form-label" for="password">Contraseña</label>
-                                <input type="password" id="password" class="form-control phone-mask"
-                                    placeholder="******" aria-label="" name="password">
+                                <label class="form-label" for="precio_venta">Precio Venta</label>
+                                <input type="number" id="precio_venta" class="form-control phone-mask"
+                                    placeholder="Ingresa un precio" aria-label="" name="precio_venta">
                             </div>
                             <div class="mb-6">
-                                <label class="form-label" for="rePassword">Reingrese su contraseña</label>
-                                <input type="password" id="rePassword" class="form-control phone-mask"
-                                    placeholder="******" aria-label="" name="rePassword">
+                                <label class="form-label" for="stock_actual">Stock Actual</label>
+                                <input type="number" id="stock_actual" class="form-control phone-mask"
+                                    placeholder="Ingresa tu stock actual" aria-label="" name="stock_actual">
+                            </div>
+                            <div class="mb-6">
+                                <label class="form-label" for="stock_minimo">Stock Minimo</label>
+                                <input type="number" id="stock_minimo" class="form-control phone-mask"
+                                    placeholder="Ingresa tu stock minimo" aria-label="" name="stock_minimo">
+                            </div>
+                            <div class="mb-6">
+                                <label class="form-label" for="stock_bajo">Stock Bajo</label>
+                                <input type="number" id="stock_bajo" class="form-control phone-mask"
+                                    placeholder="Ingresa tu stock bajo" aria-label="" name="stock_bajo">
+                            </div>
+                            <div class="mb-6">
+                                <label class="form-label" for="stock_alto">Stock Alto</label>
+                                <input type="number" id="stock_alto" class="form-control phone-mask"
+                                    placeholder="Ingresa tu stock alto" aria-label="" name="stock_alto">
                             </div>
                             <button type="submit"
                                 class="btn btn-primary me-3 data-submit waves-effect waves-light">Enviar</button>
                             <button type="reset" class="btn btn-label-danger waves-effect"
-                                data-bs-dismiss="offcanvas">Cancel</button>
+                                data-bs-dismiss="offcanvas">Cancelar</button>
                             <input type="hidden">
                         </form>
                     </div>

@@ -37,6 +37,16 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        DB::table('users')->insert([
+            [
+                'nombre' => 'Sebastián',
+                'apellido' => 'Cabezas Ríos',
+                'rut'=> '123456-7',
+                'email' => 'scabezas@ciisa.cl',
+                'password' => Hash::make('hola'),
+            ],
+        ]);
     }
 
     /**

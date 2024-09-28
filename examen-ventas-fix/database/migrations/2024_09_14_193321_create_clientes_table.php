@@ -23,6 +23,18 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('clientes')->insert([
+            [
+                'rut_empresa' => '123456-7',
+                'rubro' => 'Rubro',
+                'razon_social'=> 'Empresa bonita :)',
+                'telefono' => '9123456',
+                'direccion'=> 'Av. Libertador Bernardo OHiggins 2221',
+                'nombre_persona_contacto'=> 'Persona de Contacto',
+                'email_persona_contacto'=> 'contacto@empresa.cl',
+            ],
+        ]);
     }
 
     /**
