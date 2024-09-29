@@ -118,11 +118,19 @@ class UserController extends Controller
         $datos = User::all();
     }
 
-    public function getAllUsers()
+    public function getAllUsers(Request $request)
     {
-        $usuarios = User::all();
-        return view('users.index', compact('usuarios')); // Assuming your view file is users/index.blade.php
+        $query = User::query();
+
+        // Check if a search parameter is present
+        if ($request->has('search') && $request->search !== '') {
+            $query->where('id', $request->search);
+        }
+
+        $usuarios = $query->get();
+        return view('backoffice.usuarios', compact('usuarios'));
     }
+
 
     public function getUser(Request $_request)
     {

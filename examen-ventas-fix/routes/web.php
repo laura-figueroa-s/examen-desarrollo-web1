@@ -73,17 +73,22 @@ Route::put('/backoffice/productos/update/{_id}', [ProductoController::class, 'up
 Route::delete('/backoffice/productos/delete/{_id}', [ProductoController::class, 'deleteProduct'])->name('producto.delete');
 
     //Usuarios
-Route::get('/backoffice/usuarios', function(){
-    $user = Auth::user();
-    if ($user == NULL) {
-        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
-    }
-    
-    return view('backoffice.administrador.usuario', [
-        'user' => $user,
-        'usuarios' => User::all(),
-    ]);
-})->name('backoffice.usuarios');
+    Route::get('/backoffice/usuarios', function(){
+        $user = Auth::user();
+        if ($user == NULL) {
+            return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
+        }
+        
+        $searchId = request('search_id');
+        $usuarios = User::when($searchId, function ($query) use ($searchId) {
+            return $query->where('id', $searchId);
+        })->get();
+        
+        return view('backoffice.administrador.usuario', [
+            'user' => $user,
+            'usuarios' => $usuarios,
+        ]);
+    })->name('backoffice.usuarios');
 Route::get('/backoffice/usuarios/get/{_id}', [UserController::class, 'getUser']);
 Route::put('/backoffice/usuarios/update/{_id}', [UserController::class, 'updateUser'])->name('usuario.update');
 Route::delete('/backoffice/usuarios/delete/{_id}', [UserController::class, 'deleteUser'])->name('usuario.delete');
