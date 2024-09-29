@@ -21,6 +21,35 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="ms-n2">
+                                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                                        <label>
+                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="d-flex align-items-center justify-content-end mt-6">
+                                    <button class="btn btn-secondary add-new btn-primary waves-effect waves-light me-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
+                                        <span>
+                                            <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                            <span class="d-none d-sm-inline-block">Registrar un nuevo cliente</span>
+                                        </span>
+                                    </button>
+                                    <input type="text" id="search" placeholder="Buscar por ID" oninput="filterClients()" class="form-control" style="width: 250px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="ms-n2">
                                     <div class="dataTables_length" id="DataTables_Table_0_length"><label><select
                                                 name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
                                                 class="form-select">
@@ -37,14 +66,19 @@
                                     <div class="dt-buttons flex-wrap pt-5">
                                         <button class="btn btn-secondary add-new btn-primary waves-effect waves-light"
                                             tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i
-                                                    class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                    class="d-none d-sm-inline-block">Registrar un nuevo
-                                                    Cliente</span></span></button>
+                                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
+                                            <span>
+                                                <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                <span class="d-none d-sm-inline-block">Registrar un nuevo
+                                                    Cliente
+                                                </span>
+                                            </span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div> --}}
                         <table class="datatables-users table dataTable no-footer dtr-column" id="DataTables_Table_0"
                             aria-describedby="DataTables_Table_0_info" style="width: 1231px;">
                             <thead class="border-top">
@@ -73,9 +107,9 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="clientTableBody">
                                 @foreach ($clientes as $cliente)
-                                    <tr>
+                                    <tr data-id="{{ $cliente->id }}">
                                         <td class="control dtr-hidden" style="display: none;" tabindex="0"></td>
                                         <td><input type="checkbox" class="form-check-input"></td>
                                         <td>{{ $cliente->rut_empresa }}</td>
@@ -87,7 +121,7 @@
                                         <td>{{ $cliente->email_persona_contacto }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <button {{-- href="javascript:;" --}} class="btn btn-icon btn-text-secondary"
+                                                <button class="btn btn-icon btn-text-secondary"
                                                     data-bs-toggle="modal" data-bs-target="#editUser">
                                                     <i class="fa-solid fa-pencil"></i>
                                                 </a>
@@ -291,5 +325,19 @@
         document.getElementById('direccion').value = direccion;
         document.getElementById('nombre_persona_contacto').value = nombre_persona_contacto;
         document.getElementById('email_persona_contacto').value = email_persona_contacto;
+    }
+
+    function filterClients() {
+        const searchInput = document.getElementById('search').value.toLowerCase();
+        const userRows = document.querySelectorAll('#clientTableBody tr');
+
+        userRows.forEach(row => {
+            const userId = row.getAttribute('data-id');
+            if (userId && userId.toLowerCase().includes(searchInput)) {
+                row.style.display = ''; // Show row
+            } else {
+                row.style.display = 'none'; // Hide row
+            }
+        });
     }
 </script>
