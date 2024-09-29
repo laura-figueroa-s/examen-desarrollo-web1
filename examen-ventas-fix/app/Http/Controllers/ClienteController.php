@@ -41,7 +41,6 @@ class ClienteController extends Controller
             return redirect()->back()->withErrors(['message' => 'No se pudo crear el cliente.']);
         }
     }
-
     public function index()
     {
         $user = Auth::user();
@@ -50,7 +49,6 @@ class ClienteController extends Controller
         }
         $datos = Cliente::all();
     }
-
     public function getAllClients()
     {
         $clientes = Cliente::all();

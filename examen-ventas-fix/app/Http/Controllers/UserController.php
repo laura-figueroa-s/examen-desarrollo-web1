@@ -131,7 +131,6 @@ class UserController extends Controller
         return view('backoffice.usuarios', compact('usuarios'));
     }
 
-
     public function getUser(Request $_request)
     {
         $_request->validate(['id' => 'required']);
@@ -187,7 +186,6 @@ class UserController extends Controller
         }
     }
 
-
     public function deleteUser(Request $_request)
     {
         $_request->validate(['id' => 'required']);
@@ -213,23 +211,31 @@ class UserController extends Controller
             return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
         }
 
-        $_request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'rut' => 'required',
-            'email' => [
-                'required',
-                'email',
-                function ($attribute, $value, $fail) {
-                    if (!str_ends_with($value, '@ventasfix.cl')) {
-                        $fail('El correo debe ser @ventasfix.cl.');
-                    }
-                },
-            ],
-            'password' => 'required',
-        ]);
+        try {
+            // Validate input fields including the custom email domain validation
+            $_request->validate([
+                'nombre' => 'required',
+                'apellido' => 'required',
+                'rut' => 'required',
+                'email' => [
+                    'required',
+                    'email',
+                    function ($attribute, $value, $fail) {
+                        if (!str_ends_with($value, '@ventasfix.cl')) {
+                            $fail('El correo debe ser @ventasfix.cl.');
+                        }
+                    },
+                ],
+                'password' => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Catch validation errors and return as JSON response
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors(), // Listado de errores
+            ], 422);
+        }
 
-        // If validation passes, create the user
         try {
             $usuario = User::create([
                 'nombre' => $_request->nombre,
@@ -239,7 +245,6 @@ class UserController extends Controller
                 'password' => Hash::make($_request->password),
             ]);
 
-            // If the user was created successfully, return a 201 response
             return response()->json([
                 'message' => 'Usuario creado exitosamente',
                 'usuario' => $usuario,
@@ -252,6 +257,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+
 
     public function getUserApi(Request $_request)
     {
@@ -315,34 +321,60 @@ class UserController extends Controller
             return response()->json(['message' => 'Sin Autorización, incorrecta'], 401);
         }
 
-        $_request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'rut' => 'required',
-            'email' => 'required',
-        ]);
+        try {
+            // Validate email domain and other fields if they are present
+            $_request->validate([
+                'email' => [
+                    'sometimes',
+                    'email',
+                    function ($attribute, $value, $fail) {
+                        if (!str_ends_with($value, '@ventasfix.cl')) {
+                            $fail('El correo debe ser @ventasfix.cl.');
+                        }
+                    },
+                ],
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        }
 
         $usuario = User::find($_request->id);
+
         if ($usuario) {
-            $usuario->nombre = $_request->nombre;
-            $usuario->apellido = $_request->apellido;
-            $usuario->rut = $_request->rut;
-            $usuario->email = $_request->email;
-            $usuario->password = Hash::make($_request->password);
+            // Update only the fields that are provided in the request
+            if ($_request->filled('nombre')) {
+                $usuario->nombre = $_request->nombre;
+            }
+            if ($_request->filled('apellido')) {
+                $usuario->apellido = $_request->apellido;
+            }
+            if ($_request->filled('rut')) {
+                $usuario->rut = $_request->rut;
+            }
+            if ($_request->filled('email')) {
+                $usuario->email = $_request->email;
+            }
+            if ($_request->filled('password')) {
+                $usuario->password = Hash::make($_request->password);
+            }
+
             $usuario->save();
-            return response([
+
+            return response()->json([
                 'message' => 'success',
                 'usuario' => $usuario,
-                'status' => 200
-            ]);
+            ], 200);
         } else {
-            return response([
+            return response()->json([
                 'message' => 'error',
-                'usuario' => 'El cliente no existe',
-                'status' => 404
-            ]);
+                'usuario' => 'El usuario no existe',
+            ], 404);
         }
     }
+
 
     function deleteUserAPI(Request $_request)
     {

@@ -57,7 +57,6 @@ class ProductoController extends Controller
         }
     }
 
-
     public function index()
     {
         $user = Auth::user();
@@ -158,11 +157,11 @@ class ProductoController extends Controller
             'descripcion_corta' => 'required|string|max:500',
             'descripcion_larga' => 'required|string|max:1000',
             'precio_neto' => 'required|numeric',
-            'precio_venta' => 'required|numeric',
+            /* 'precio_venta' => 'required|numeric', */
             'stock_actual' => 'required|integer',
             'stock_minimo' => 'required|integer',
             'stock_bajo' => 'required|integer',
-            'stock_alto' => 'required|integer',
+            'stock_alto' => 'required|integer'
         ]);
 
         // Handle the image upload
@@ -172,6 +171,8 @@ class ProductoController extends Controller
             $imagePath = 'images/' . $imageName;
         }
 
+        $precio_venta = $_request->precio_neto * 1.19;
+
         // Create the product
         $producto = Producto::create([
             'nombre' => $_request->nombre,
@@ -180,7 +181,7 @@ class ProductoController extends Controller
             'descripcion_corta' => $_request->descripcion_corta,
             'descripcion_larga' => $_request->descripcion_larga,
             'precio_neto' => $_request->precio_neto,
-            'precio_venta' => $_request->precio_venta,
+            'precio_venta' => $precio_venta,
             'stock_actual' => $_request->stock_actual,
             'stock_minimo' => $_request->stock_minimo,
             'stock_bajo' => $_request->stock_bajo,
@@ -190,12 +191,12 @@ class ProductoController extends Controller
         // Check if product is saved successfully
         if ($producto) {
             return response()->json([
-                'message' => 'Product created successfully',
+                'message' => 'Producto creado con éxito',
                 'producto' => $producto,
             ], 201);
         } else {
             return response()->json([
-                'message' => 'Failed to create product',
+                'message' => 'Ha ocurrido un error al intentar crear un producto',
             ], 500);
         }
     }
@@ -251,12 +252,14 @@ class ProductoController extends Controller
             'descripcion_corta' => 'required',
             'descripcion_larga' => 'required',
             'precio_neto' => 'required',
-            'precio_venta' => 'required',
+            /* 'precio_venta' => 'required', */
             'stock_actual' => 'required',
             'stock_minimo' => 'required',
             'stock_bajo' => 'required',
             'stock_alto' => 'required',
         ]);
+
+        $precio_venta = $_request->precio_neto * 1.19;
 
         $producto = Producto::find($_request->id);
         if ($producto) {
@@ -265,7 +268,7 @@ class ProductoController extends Controller
             $producto->descripcion_corta = $_request->descripcion_corta;
             $producto->descripcion_larga = $_request->descripcion_larga;
             $producto->precio_neto = $_request->precio_neto;
-            $producto->precio_venta = $_request->precio_venta;
+            $producto->precio_venta = $precio_venta;
             $producto->stock_actual = $_request->stock_actual;
             $producto->stock_minimo = $_request->stock_minimo;
             $producto->stock_bajo = $_request->stock_bajo;
