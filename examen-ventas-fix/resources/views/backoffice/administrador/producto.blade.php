@@ -21,30 +21,32 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="ms-n2">
-                                    <div class="dataTables_length" id="DataTables_Table_0_length"><label><select
-                                                name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
-                                                class="form-select">
+                                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                                        <label>
+                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
                                                 <option value="10">10</option>
                                                 <option value="25">25</option>
                                                 <option value="50">50</option>
                                                 <option value="100">100</option>
-                                            </select></label></div>
-                                </div>
-                            </div>
-                            <div class="col-md-10">
-                                <div
-                                    class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0">
-                                    <div class="dt-buttons flex-wrap pt-5">
-                                        <button class="btn btn-secondary add-new btn-primary waves-effect waves-light"
-                                            tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddProduct"><span><i
-                                                    class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                    class="d-none d-sm-inline-block">Registrar un nuevo
-                                                    producto</span></span></button>
+                                            </select>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-10">
+                                <div class="d-flex align-items-center justify-content-end mt-6">
+                                    <button class="btn btn-secondary add-new btn-primary waves-effect waves-light me-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddProduct">
+                                        <span>
+                                            <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                            <span class="d-none d-sm-inline-block">Registrar un nuevo
+                                                producto</span>
+                                        </span>
+                                    </button>
+                                    <input type="text" id="search" placeholder="Buscar por ID" oninput="filterProducts()" class="form-control" style="width: 250px;"/>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                         <table class="datatables-users table dataTable no-footer dtr-column" id="DataTables_Table_0"
                             aria-describedby="DataTables_Table_0_info" style="width: 1231px;">
                             <thead class="border-top">
@@ -80,9 +82,9 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="productTableBody">
                                 @foreach ($productos as $producto)
-                                    <tr>
+                                    <tr data-id="{{ $producto->id }}">
                                         <td class="control dtr-hidden" style="display: none;" tabindex="0"></td>
                                         <td><input type="checkbox" class="form-check-input"></td>
                                         <td>{{ $producto->sku }}</td>
@@ -114,7 +116,7 @@
                                                             <i class="ti ti-trash ti-md"></i>
                                                         </button>
                                                     </form>
-
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -358,7 +360,17 @@
         }
     }
 
-    /* function enablePrecioVenta() {
-        document.getElementById('precio_venta').disabled = false; // Ensure it's enabled on form submission
-    } */
+    function filterProducts() {
+        const searchInput = document.getElementById('search').value.toLowerCase();
+        const userRows = document.querySelectorAll('#productTableBody tr');
+
+        userRows.forEach(row => {
+            const userId = row.getAttribute('data-id');
+            if (userId && userId.toLowerCase().includes(searchInput)) {
+                row.style.display = ''; // Show row
+            } else {
+                row.style.display = 'none'; // Hide row
+            }
+        });
+    }
 </script>
